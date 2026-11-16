@@ -2,6 +2,14 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
+<meta property="og:title" content="Nie wieder ist jetzt">
+<meta property="og:description" content="Gibt es Rechtsextremismus heute noch? Geschichtsprojekt der Klasse 10a, Realschule Sundern.">
+<meta property="og:image" content="https://teampostbox.com/vorschau.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://teampostbox.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>img{max-width:100%}[hidden]{display:none!important}</style>
@@ -429,6 +437,14 @@ body { background: var(--paper); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* phone and tablet: nothing wider than the screen, readable button */
+html, body { overflow-x: clip; }
+.chart-wrap { grid-template-columns: minmax(0, 1fr) 250px; }
+.chart-wrap > *, .slide-head, .slide-head > * { min-width: 0; }
+.credits a.btn { color: #2A1E05; }
+@media (max-width: 1000px) { .chart-wrap { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 700px) { #zahlen { min-width: 0; } .chart-scroll { overflow-x: visible; } .chart { padding: 18px 14px 14px; } }
 </style>
 
 <nav class="nav" aria-label="Folien">
