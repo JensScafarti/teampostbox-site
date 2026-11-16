@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lernzettel Nie wieder ist jetzt</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: ein ausführlicher Lernzettel pro Person (Farbe = Person), danach ein gemeinsamer Zettel.
+   Pro Folie: Wer liest? → Darum geht's (Verständnis) → Das sagst du (Sprechtext pro Bild/Karte) → Übergabe. Hell, weil gedruckt. */
+:root {
+  color-scheme: light;
+  --bg: #EEF0F3;
+  --page: #FFFFFF;
+  --ink: #16181D;
+  --soft: #50555F;
+  --line: #DADDE3;
+  --gold: #8A6414;
+  --gold-bg: #FBF3DF;
+  --info-bg: #F2F5F9;
+  --L: #A0452E;   /* Leticia */
+  --A: #2B5FB8;   /* Alessandra */
+  --E: #2F7D5B;   /* Enea */
+  --head: 'Space Grotesk', 'Segoe UI', Arial, sans-serif;
+  --body: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55;
+  padding: 28px max(16px, env(safe-area-inset-right, 0px)) 60px max(16px, env(safe-area-inset-left, 0px)); }
+h1, h2, h3, h4 { font-family: var(--head); margin: 0; line-height: 1.15; text-wrap: balance; }
+p { margin: 0; }
+.top { max-width: 840px; margin: 0 auto 18px; display: flex; gap: 12px 24px; align-items: end; justify-content: space-between; flex-wrap: wrap; }
+.top h1 { font-size: 30px; }
+.top p { color: var(--soft); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs a { text-decoration: none; color: var(--ink); background: var(--page); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: 14px; display: inline-flex; gap: 8px; align-items: center; }
+.tabs a i { width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--gold)); }
+.hint { max-width: 840px; margin: 0 auto 22px; font-size: 13px; color: var(--soft); }
+
+.sheet { max-width: 840px; margin: 0 auto 30px; background: var(--page); border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 14px 30px -18px rgba(0,0,0,.25); padding: 0 0 26px; overflow: hidden; }
+.sheet.L { --c: var(--L); } .sheet.A { --c: var(--A); } .sheet.E { --c: var(--E); }
+.banner { background: var(--c, var(--ink)); color: #fff; padding: 22px 36px; display: flex; justify-content: space-between; gap: 16px; align-items: end; flex-wrap: wrap; }
+.banner small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+.banner h2 { font-size: 40px; line-height: 1; }
+.banner .you { text-align: right; font-size: 14px; }
+.banner .you b { display: block; font-family: var(--head); font-size: 22px; }
+.inner { padding: 22px 36px 0; display: grid; gap: 22px; }
+.order { display: flex; gap: 6px; flex-wrap: wrap; font-size: 12px; align-items: center; }
+.order em { font-style: normal; color: var(--soft); margin-right: 4px; }
+.order span { border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--soft); }
+.order span.me { background: var(--c); border-color: var(--c); color: #fff; font-weight: 700; }
+
+.slide { border: 2px solid var(--c); border-radius: 10px; overflow: hidden; }
+.slide-top { background: var(--c); color: #fff; padding: 10px 16px; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.slide-top h3 { font-size: 20px; }
+.slide-top span { font-size: 13px; font-weight: 600; }
+.slide-body { padding: 16px 18px; display: grid; gap: 14px; }
+.cue { font-size: 13px; color: var(--soft); }
+.cue b { color: var(--ink); }
+.info { background: var(--info-bg); border-radius: 8px; padding: 12px 14px; display: grid; gap: 4px; }
+.info h4, .say h4, .merk h4 { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--soft); }
+.info p { font-size: 14px; color: #333842; }
+.part { display: grid; gap: 6px; }
+.part + .part { border-top: 1px dashed var(--line); padding-top: 12px; }
+.part h5 { margin: 0; font-family: var(--head); font-size: 15px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.part h5 .pic { font-family: var(--body); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--c); border: 1.5px solid var(--c); border-radius: 4px; padding: 1px 6px; }
+.read { font-size: 15.5px; line-height: 1.6; padding-left: 12px; border-left: 3px solid var(--c); }
+.do { font-size: 13px; font-weight: 600; color: var(--gold); background: var(--gold-bg); border-radius: 6px; padding: 3px 8px; display: inline-block; }
+.handover { background: var(--gold-bg); border-radius: 8px; padding: 10px 14px; font-weight: 600; }
+.handover small { display: block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+.merk { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; }
+.merk ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.quiz { border: 1px dashed var(--c); border-radius: 8px; padding: 14px 16px; display: grid; gap: 8px; }
+.quiz h4 { font-size: 15px; color: var(--c); }
+.quiz p b { font-family: var(--head); }
+.ans { font-weight: 700; color: var(--c); }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--head); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--soft); }
+td .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; background: var(--c); vertical-align: -1px; }
+.table-wrap { overflow-x: auto; }
+.qa { display: grid; gap: 10px; }
+.qa b { font-family: var(--head); display: block; }
+.qa p { color: var(--soft); }
+.note { font-size: 12px; color: var(--soft); }
+
+@media (max-width: 640px) {
+  .banner, .inner { padding-inline: 18px; }
+  .banner .you { text-align: left; }
+}
+@media print {
+  body { background: #fff; padding: 0; font-size: 12px; }
+  .top, .tabs, .hint { display: none; }
+  .sheet { box-shadow: none; border-radius: 0; margin: 0; max-width: none; break-after: page; }
+  .sheet:last-child { break-after: auto; }
+  .banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 14px 20px; }
+  .slide-top, .info, .handover, .order span.me, .do { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .inner { padding: 14px 4px 0; gap: 14px; }
+  .read { font-size: 13px; }
+  .part, .info, .handover, .merk, .quiz { break-inside: avoid; }
+  @page { size: A4; margin: 12mm 13mm; }
+}
+</style>
+
+<div class="top">
+  <div>
+    <h1>Lernzettel: Nie wieder ist jetzt</h1>
+    <p>Für Leticia, Alessandra und Enea · Geschichte, Klasse 10</p>
+  </div>
+  <nav class="tabs" aria-label="Zettel">
+    <a href="#leti" style="--c:var(--L)"><i></i>Leticia</a>
+    <a href="#ale" style="--c:var(--A)"><i></i>Alessandra</a>
+    <a href="#enea" style="--c:var(--E)"><i></i>Enea</a>
+    <a href="#alle"><i></i>Gemeinsam</a>
+  </nav>
+</div>
+<p class="hint">So funktioniert der Zettel: Jede Person hat eine eigene Farbe. <b>Grau hinterlegt</b> = zum Verstehen, nicht vorlesen. <b>Mit farbigem Strich</b> = das liest du vor. <b>Gelb</b> = das klickst du. Zum Ausdrucken: Strg + P.</p>
+
+<!-- ======================= LETICIA ======================= -->
+<section class="sheet L" id="leti">
+  <div class="banner">
+    <div><small>Lernzettel</small><h2>Leticia</h2></div>
+    <p class="you"><b>Du liest Folie 1 und Folie 4</b>Du fängst den Vortrag an.</p>
+  </div>
+  <div class="inner">
+    <div class="order"><em>Reihenfolge:</em><span class="me">1 Leticia</span><span>2 Alessandra</span><span>3 Enea</span><span class="me">4 Leticia</span><span>5 Alessandra</span><span>6 Enea</span></div>
+
+    <div class="slide">
+      <div class="slide-top"><h3>Folie 1 · Start</h3><span>Wer liest? LETICIA · ca. 2 Minuten</span></div>
+      <div class="slide-body">
+        <p class="cue"><b>Du bist dran:</b> ganz am Anfang. Die Seite ist offen, Vollbild ist an (Taste F).</p>
+        <div class="info"><h4>Darum geht’s (zum Verstehen)</h4>
+          <p>Auf dieser Folie begrüßt du die Klasse und sagst, worum es geht. Du stellst eine Frage, auf die du auf Folie 4 selbst antwortest. Im Hintergrund siehst du ein Kopfsteinpflaster in 3D. Die goldenen Steine darin sind Stolpersteine, kleine Gedenktafeln für Opfer der Nazis.</p></div>
+        <div class="part">
+          <h5>Begrüßung</h5>
+          <p class="read">„Hallo zusammen! Wir sind Leticia, Alessandra und Enea. Unser Thema heute ist Rechtsextremismus.“</p>
+        </div>
+        <div class="part">
+          <h5>Die Frage an die Klasse <span class="pic">steht auf der Folie</span></h5>
+          <p class="read">„Wir haben am Anfang eine Frage an euch: Gibt es Rechtsextremismus heute noch? Oder ist das nur ein Thema aus dem Geschichtsbuch? Denkt mal kurz darüber nach. Die Antwort bekommt ihr später.“</p>
+          <p class="cue">3 Sekunden Pause machen und in die Klasse schauen.</p>
+        </div>
+        <div class="part">
+          <h5>Das Pflaster <span class="pic">Bild im Hintergrund</span></h5>
+          <p><span class="do">Einmal mitten ins Pflaster klicken</span></p>
+          <p class="read">„Seht ihr? Alle Steine fliegen durcheinander, nur die goldenen bleiben liegen. Das sind Stolpersteine. Sie erinnern an Menschen, die von den Nazis getötet wurden. Dazu erzählt euch Alessandra später mehr.“</p>
+        </div>
+        <div class="part">
+          <h5>Der Fahrplan <span class="pic">die 5 Knöpfe</span></h5>
+          <p class="read">„Wir zeigen euch heute sechs Folien: Was ist Rechtsextremismus? Wie war das in der Geschichte? Wie viele Rechtsextreme gibt es heute? Wie erinnern wir an die Opfer? Und was können wir selbst dagegen tun?“</p>
+        </div>
+        <p class="handover"><small>Übergabe an Alessandra</small>„Was Rechtsextremismus eigentlich ist, erklärt euch jetzt Alessandra.“ <span class="do">→ drücken</span></p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-top"><h3>Folie 4 · Zahlen</h3><span>Wer liest? LETICIA · ca. 2 Minuten</span></div>
+      <div class="slide-body">
+        <p class="cue"><b>Du bist dran:</b> wenn Enea sagt: „… Das zeigt euch Leticia.“</p>
+        <div class="info"><h4>Darum geht’s (zum Verstehen)</h4>
+          <p>Das Diagramm zeigt, wie viele Rechtsextreme es von 1999 bis 2025 in Deutschland gab. Gezählt hat das der Verfassungsschutz. Das ist ein Amt des Staates, das Gruppen beobachtet, die gegen die Demokratie sind. Jeder Balken ist ein Jahr: Je höher der Balken, desto mehr Rechtsextreme. Bis 2014 wurden es weniger, danach immer mehr. Ab 2019 zählt der Verfassungsschutz auch neue Gruppen mit, darum springt die Zahl dort hoch.</p></div>
+        <div class="part">
+          <h5>Das Diagramm erklären <span class="pic">Säulendiagramm</span></h5>
+          <p class="read">„Hier seht ihr, wie viele Rechtsextreme es in Deutschland gab. Unten stehen die Jahre, von 1999 bis 2025. Je höher der Balken, desto mehr Rechtsextreme. Gezählt hat das der Verfassungsschutz. Das ist ein Amt, das Feinde der Demokratie beobachtet.“</p>
+        </div>
+        <div class="part">
+          <h5>Der blaue Balken <span class="pic">2014</span></h5>
+          <p><span class="do">Mit der Maus über den blauen Balken fahren</span></p>
+          <p class="read">„Der blaue Balken ist das Jahr 2014. Da gab es am wenigsten Rechtsextreme, ungefähr 21.000.“</p>
+        </div>
+        <div class="part">
+          <h5>Der rote Balken <span class="pic">2025</span></h5>
+          <p><span class="do">Mit der Maus über den roten Balken fahren</span></p>
+          <p class="read">„Der rote Balken ist 2025. Da gab es so viele wie noch nie: 58.700. Das sind fast dreimal so viele wie 2014!“</p>
+        </div>
+        <div class="part">
+          <h5>Der Sprung bei 2019 <span class="pic">gestrichelte Linie</span></h5>
+          <p class="read">„Ab 2019 zählt der Verfassungsschutz mehr Gruppen mit, zum Beispiel einen Teil der AfD. Darum springt die Zahl da nach oben.“</p>
+        </div>
+        <div class="part">
+          <h5>Die Antwort auf deine Frage</h5>
+          <p class="read">„Erinnert ihr euch an meine Frage vom Anfang? Gibt es Rechtsextremismus heute noch? Die Antwort ist: Ja. Es gibt heute sogar mehr Rechtsextreme als je zuvor.“</p>
+        </div>
+        <p class="handover"><small>Übergabe an Alessandra</small>„Wie wir an die Opfer erinnern können, zeigt euch jetzt Alessandra.“ <span class="do">→ drücken</span></p>
+      </div>
+    </div>
+
+    <div class="quiz">
+      <h4>Im Quiz am Ende liest du Frage 1 und 2 vor</h4>
+      <p><b>1)</b> „Zahlencodes wie 88 sind harmlose Glückszahlen.“ Antwort: <span class="ans">falsch</span>, 88 steht für „Heil Hitler“.</p>
+      <p><b>2)</b> „Im Grundgesetz steht: Jeder Mensch ist gleich viel wert.“ Antwort: <span class="ans">richtig</span>, das ist der allererste Satz.</p>
+      <p class="cue">So geht’s: Frage vorlesen, dann „Wer denkt richtig? Hand hoch!“, dann anklicken und die Erklärung vorlesen.</p>
+    </div>
+
+    <div class="merk"><h4>Das musst du auswendig wissen</h4>
+      <ul>
+        <li>Deine Frage: <b>„Gibt es Rechtsextremismus heute noch?“</b> Antwort auf Folie 4: <b>Ja, mehr als je zuvor.</b></li>
+        <li><b>2014</b>: am wenigsten, etwa <b>21.000</b></li>
+        <li><b>2025</b>: am meisten, <b>58.700</b>, fast 3-mal so viele</li>
+        <li>Verfassungsschutz = Amt, das Feinde der Demokratie beobachtet</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ALESSANDRA ======================= -->
+<section class="sheet A" id="ale">
+  <div class="banner">
+    <div><small>Lernzettel</small><h2>Alessandra</h2></div>
+    <p class="you"><b>Du liest Folie 2 und Folie 5</b>Du kommst nach Leticia.</p>
+  </div>
+  <div class="inner">
+    <div class="order"><em>Reihenfolge:</em><span>1 Leticia</span><span class="me">2 Alessandra</span><span>3 Enea</span><span>4 Leticia</span><span class="me">5 Alessandra</span><span>6 Enea</span></div>
+
+    <div class="slide">
+      <div class="slide-top"><h3>Folie 2 · Was ist Rechtsextremismus?</h3><span>Wer liest? ALESSANDRA · ca. 3 Minuten</span></div>
+      <div class="slide-body">
+        <p class="cue"><b>Du bist dran:</b> wenn Leticia sagt: „… erklärt euch jetzt Alessandra.“</p>
+        <div class="info"><h4>Darum geht’s (zum Verstehen)</h4>
+          <p>Hier erklärst du, was das Wort Rechtsextremismus bedeutet. Der Kern: Rechtsextreme glauben, dass nicht alle Menschen gleich viel wert sind, und sie wollen die Demokratie abschaffen. Demokratie heißt: Alle dürfen wählen und mitbestimmen. Wichtig ist der Unterschied: Rechts (zum Beispiel konservativ) ist eine ganz normale Meinung. Erst ganz außen wird es extrem und gefährlich, auf beiden Seiten.</p></div>
+        <div class="part">
+          <h5>Einstieg <span class="pic">Überschrift</span></h5>
+          <p class="read">„Was ist Rechtsextremismus eigentlich? Kurz gesagt: Rechtsextreme denken, dass manche Menschen weniger wert sind als andere. Und sie wollen, dass nicht mehr alle mitbestimmen dürfen. Man erkennt sie an vier Dingen.“</p>
+        </div>
+        <div class="part">
+          <h5>Karte 1 <span class="pic">„Wir sind besser“</span></h5>
+          <p><span class="do">Karte 1 anklicken</span></p>
+          <p class="read">„Erstens: Sie denken, ihr eigenes Volk ist mehr wert als alle anderen. Wer nicht dazugehört, ist für sie ein Feind.“</p>
+        </div>
+        <div class="part">
+          <h5>Karte 2 <span class="pic">„Hass auf andere“</span></h5>
+          <p><span class="do">Karte 2 anklicken</span></p>
+          <p class="read">„Zweitens: Sie machen Menschen fertig, weil sie anders aussehen, aus einem anderen Land kommen oder einen anderen Glauben haben, zum Beispiel Juden oder Muslime.“</p>
+        </div>
+        <div class="part">
+          <h5>Karte 3 <span class="pic">„Einer soll bestimmen“</span></h5>
+          <p><span class="do">Karte 3 anklicken</span></p>
+          <p class="read">„Drittens: Sie wollen keine freien Wahlen mehr. Ein ‚Führer‘ soll alles allein bestimmen. Wer etwas anderes denkt, wird bestraft.“</p>
+        </div>
+        <div class="part">
+          <h5>Karte 4 <span class="pic">„Hitler gut finden“</span></h5>
+          <p><span class="do">Karte 4 anklicken</span></p>
+          <p class="read">„Und viertens: Sie finden die Nazi-Zeit gar nicht so schlimm. Manche behaupten sogar, die Morde an den Juden hätte es nie gegeben.“</p>
+        </div>
+        <div class="part">
+          <h5>Die Leiste links, Mitte, rechts <span class="pic">5 Felder</span></h5>
+          <p><span class="do">„Mitte“ anklicken</span> <span class="do">„Rechts“ anklicken</span> <span class="do">„Rechtsextrem“ anklicken</span> <span class="do">„Linksextrem“ anklicken</span></p>
+          <p class="read">„Hier seht ihr, wo die Grenze ist. Links, Mitte und rechts sind alles normale Meinungen. Darüber darf man streiten, das ist Demokratie. In der Mitte findet man am besten Kompromisse.“</p>
+          <p class="read">„Ganz wichtig: Rechts heißt nicht rechtsextrem! Wer zum Beispiel Traditionen wichtig findet oder weniger Zuwanderung will, ist nicht rechtsextrem. Gefährlich wird es erst ganz außen. Linksextreme und Rechtsextreme wollen beide die Demokratie abschaffen. Heute geht es um den rechtsextremen Rand.“</p>
+        </div>
+        <div class="part">
+          <h5>Der Fragebogen <span class="pic">gelber Knopf</span></h5>
+          <p class="read">„Mit dem gelben Knopf könnt ihr später selbst testen, ob ihr eher links, eher in der Mitte oder eher rechts seid. Das ist nur für euch, niemand muss sein Ergebnis sagen.“</p>
+          <p class="cue">Den Fragebogen <b>nicht</b> im Vortrag öffnen, das dauert zu lange.</p>
+        </div>
+        <p class="handover"><small>Übergabe an Enea</small>„Woher das alles kommt, zeigt euch jetzt Enea.“ <span class="do">→ drücken</span></p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-top"><h3>Folie 5 · Stolpersteine</h3><span>Wer liest? ALESSANDRA · ca. 2 Minuten</span></div>
+      <div class="slide-body">
+        <p class="cue"><b>Du bist dran:</b> wenn Leticia sagt: „… zeigt euch jetzt Alessandra.“</p>
+        <div class="info"><h4>Darum geht’s (zum Verstehen)</h4>
+          <p>Stolpersteine sind kleine Gedenktafeln aus Messing, 10 mal 10 Zentimeter groß, im Gehweg. Jeder Stein erinnert an einen Menschen, den die Nazis verfolgt oder ermordet haben. Er liegt vor dem Haus, in dem dieser Mensch zuletzt freiwillig gewohnt hat. Darauf stehen Name, Geburtsjahr und Schicksal. Der Künstler Gunter Demnig hat sie erfunden. Es gibt heute über 100.000 Stück in ganz Europa.</p></div>
+        <div class="part">
+          <h5>Einstieg</h5>
+          <p class="read">„Erinnert ihr euch an die goldenen Steine vom Anfang? Das sind Stolpersteine.“</p>
+        </div>
+        <div class="part">
+          <h5>Das Foto <span class="pic">echte Stolpersteine in Berlin</span></h5>
+          <p class="read">„Auf dem Foto seht ihr echte Stolpersteine in Berlin. Jeder Stein erinnert an einen Menschen, den die Nazis verfolgt oder getötet haben. Er liegt genau vor dem Haus, in dem dieser Mensch früher gewohnt hat. Darauf stehen sein Name, wann er geboren wurde und was mit ihm passiert ist.“</p>
+          <p class="read">„Es gibt schon über 100.000 Stolpersteine in ganz Europa. Vielleicht habt ihr auch schon mal einen gesehen.“</p>
+        </div>
+        <div class="part">
+          <h5>Warum „Stolper“-Steine?</h5>
+          <p class="read">„Man soll beim Vorbeigehen gedanklich darüber stolpern und kurz nachdenken. Und wer die Schrift lesen will, muss sich nach unten beugen. So verbeugt man sich vor den Opfern.“</p>
+        </div>
+        <div class="part">
+          <h5>Der Stein zum Polieren <span class="pic">Stein rechts</span></h5>
+          <p><span class="do">„Automatisch polieren“ klicken</span> (oder selbst mit der Maus wischen)</p>
+          <p class="read">„Mit der Zeit werden die Steine dunkel und schmutzig. Darum putzen viele Menschen sie, zum Beispiel am 9. November. An diesem Tag haben die Nazis 1938 überall in Deutschland Synagogen angezündet. Wenn die Steine wieder glänzen, sieht man die Namen wieder.“</p>
+        </div>
+        <p class="handover"><small>Übergabe an Enea</small>„Und was können wir selbst tun? Das erzählt euch Enea.“ <span class="do">→ drücken</span></p>
+      </div>
+    </div>
+
+    <div class="quiz">
+      <h4>Im Quiz am Ende liest du Frage 3 und 4 vor</h4>
+      <p><b>3)</b> „Nach 1945 gab es keinen Rechtsextremismus mehr.“ Antwort: <span class="ans">falsch</span>, zum Beispiel die NSU-Morde und der Anschlag in Hanau 2020.</p>
+      <p><b>4)</b> „Im Jahr 2014 gab es die wenigsten Rechtsextremen.“ Antwort: <span class="ans">richtig</span>, damals waren es etwa 21.000.</p>
+      <p class="cue">So geht’s: Frage vorlesen, dann „Wer denkt richtig? Hand hoch!“, dann anklicken und die Erklärung vorlesen.</p>
+    </div>
+
+    <div class="merk"><h4>Das musst du auswendig wissen</h4>
+      <ul>
+        <li>Kern: Rechtsextreme denken, dass nicht alle Menschen gleich viel wert sind.</li>
+        <li>Die 4 Karten: Wir sind besser · Hass auf andere · Einer soll bestimmen · Hitler gut finden</li>
+        <li><b>Rechts ≠ rechtsextrem!</b> Rechts ist eine normale Meinung. Die Mitte ist am stabilsten.</li>
+        <li>1 Stolperstein = 1 Mensch, vor seinem alten Zuhause · über 100.000 in Europa</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ENEA ======================= -->
+<section class="sheet E" id="enea">
+  <div class="banner">
+    <div><small>Lernzettel</small><h2>Enea</h2></div>
+    <p class="you"><b>Du liest Folie 3 und Folie 6</b>Du machst den Schluss.</p>
+  </div>
+  <div class="inner">
+    <div class="order"><em>Reihenfolge:</em><span>1 Leticia</span><span>2 Alessandra</span><span class="me">3 Enea</span><span>4 Leticia</span><span>5 Alessandra</span><span class="me">6 Enea</span></div>
+
+    <div class="slide">
+      <div class="slide-top"><h3>Folie 3 · Drei Ereignisse</h3><span>Wer liest? ENEA · ca. 3 Minuten</span></div>
+      <div class="slide-body">
+        <p class="cue"><b>Du bist dran:</b> wenn Alessandra sagt: „… zeigt euch jetzt Enea.“</p>
+        <div class="info"><h4>Darum geht’s (zum Verstehen)</h4>
+          <p>Hier siehst du 3 Fotos nebeneinander. Jedes steht für ein Ereignis, das man kennen sollte: die NS-Zeit (1933–45), die NSU-Morde (2000–07) und den Anschlag von Hanau (2020). Die Fotos zeigen, dass Rechtsextremismus nicht mit Hitler aufgehört hat. Es gab danach immer wieder Gewalt, bis heute. Du klickst nur Foto 1 an, um den Artikel zu öffnen. Zu Foto 2 und 3 zeigst du einfach auf das Foto und erzählst.</p></div>
+        <div class="part">
+          <h5>Einstieg</h5>
+          <p class="read">„Rechtsextremismus gibt es nicht erst seit gestern. Ich zeige euch drei Ereignisse, die jeder kennen sollte.“</p>
+        </div>
+        <div class="part">
+          <h5>Foto 1 · 1933–45 <span class="pic">Tor vom KZ Auschwitz</span></h5>
+          <p><span class="do">Foto 1 „1933–45“ anklicken</span></p>
+          <p class="read">„Das Foto zeigt das Tor vom Konzentrationslager Auschwitz. Darauf steht ‚Arbeit macht frei‘. Das war eine Lüge der Nazis.“</p>
+          <p class="read">„1933 kommt Hitler an die Macht. Ab dann bestimmt er allein, freie Wahlen gibt es nicht mehr. Juden, Sinti und Roma und alle, die gegen ihn sind, werden verfolgt. Die Nazis ermorden etwa 6 Millionen Juden. Das nennt man Holocaust. 1945 ist der Krieg vorbei.“</p>
+          <p class="read">„Danach, 1949, bekommt Deutschland das Grundgesetz. Das sind die wichtigsten Regeln für unser Land. Der erste Satz heißt: ‚Die Würde des Menschen ist unantastbar.‘ Das bedeutet: Jeder Mensch ist gleich viel wert. So etwas wie unter Hitler soll nie wieder passieren.“</p>
+          <p><span class="do">Fenster schließen (× oder Esc)</span></p>
+        </div>
+        <div class="part">
+          <h5>Foto 2 · 2000–07 <span class="pic">Denkmal mit Namen</span></h5>
+          <p class="read">„Aber auch nach Hitler gab es immer wieder Gewalt von Rechtsextremen. Das zweite Foto zeigt ein Denkmal in Dortmund. Darauf stehen die Namen von zehn Menschen. Sie wurden von einer rechtsextremen Terrorgruppe getötet, dem NSU. Die Polizei hat die Täter jahrelang nicht gefunden und sogar die Familien der Opfer verdächtigt. Erst 2011 wurde die Gruppe entdeckt.“</p>
+        </div>
+        <div class="part">
+          <h5>Foto 3 · 2020 <span class="pic">Plakat mit 9 Gesichtern</span></h5>
+          <p class="read">„Und auf dem dritten Foto seht ihr ein Plakat mit neun Menschen. Sie wurden 2020 in Hanau von einem Rechtsextremisten erschossen, nur weil ihre Familien aus anderen Ländern kommen. Ihre Familien sagen: Sagt ihre Namen! Damit niemand sie vergisst.“</p>
+          <p class="cue">Hier langsam und ernst sprechen.</p>
+        </div>
+        <p class="handover"><small>Übergabe an Leticia</small>„Wie viele Rechtsextreme gibt es heute? Das zeigt euch Leticia.“ <span class="do">→ drücken</span></p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-top"><h3>Folie 6 · Was können wir tun?</h3><span>Wer liest? ENEA · ca. 2 Minuten + Quiz</span></div>
+      <div class="slide-body">
+        <p class="cue"><b>Du bist dran:</b> wenn Alessandra sagt: „… Das erzählt euch Enea.“</p>
+        <div class="info"><h4>Darum geht’s (zum Verstehen)</h4>
+          <p>Zum Schluss geht es darum, was jeder von uns tun kann. Es gibt drei Karten: Erkennen, Widersprechen, Hilfe holen. Rechtsextreme tarnen sich oft mit Zahlen-Codes: Jede Zahl steht für einen Buchstaben im Alphabet (1 = A, 8 = H). Am Ende liest du ein Zitat von Primo Levi vor. Er war ein Jude aus Italien und hat das KZ Auschwitz überlebt.</p></div>
+        <div class="part">
+          <h5>Einstieg</h5>
+          <p class="read">„Zum Schluss die wichtigste Frage: Was können wir selbst tun? Drei Dinge.“</p>
+        </div>
+        <div class="part">
+          <h5>Karte 1 <span class="pic">Erkennen</span></h5>
+          <p class="read">„Erstens: Erkennen. Rechtsextreme tarnen sich oft mit Zahlen. 88 bedeutet ‚Heil Hitler‘, weil H der 8. Buchstabe im Alphabet ist. 18 bedeutet ‚Adolf Hitler‘, A ist der 1. und H der 8. Buchstabe. Oft verstecken sie ihren Hass auch in ‚lustigen‘ Memes oder Videos.“</p>
+        </div>
+        <div class="part">
+          <h5>Karte 2 <span class="pic">Widersprechen</span></h5>
+          <p class="read">„Zweitens: Widersprechen. Wenn jemand rassistische Sprüche macht, egal ob auf dem Schulhof oder im Gruppenchat, nicht einfach schweigen. Es reicht schon zu sagen: ‚Das finde ich nicht okay.‘ Und: Erst prüfen, ob etwas stimmt, dann teilen.“</p>
+        </div>
+        <div class="part">
+          <h5>Karte 3 <span class="pic">Hilfe holen</span></h5>
+          <p class="read">„Drittens: Hilfe holen. Redet mit Lehrern oder Eltern. Wer aus der rechtsextremen Szene raus will, bekommt Hilfe bei EXIT-Deutschland. Und bei der Nummer gegen Kummer, 116 111, kann man reden, ohne seinen Namen zu sagen.“</p>
+        </div>
+        <div class="part">
+          <h5>Das Zitat <span class="pic">unten links</span></h5>
+          <p class="read">„Zum Schluss ein Satz von Primo Levi. Er hat das KZ Auschwitz überlebt. Er hat gesagt: ‚Es ist geschehen, und folglich kann es wieder geschehen.‘ Das heißt: Weil es einmal passiert ist, kann es auch wieder passieren. Darum müssen wir aufpassen.“</p>
+          <p class="cue">Vor und nach dem Zitat kurz Pause machen.</p>
+        </div>
+        <div class="part">
+          <h5>Quiz starten <span class="pic">gelber Knopf</span></h5>
+          <p><span class="do">„Zum Schluss: Quiz starten“ klicken</span></p>
+          <p class="read">„Und jetzt testen wir, ob ihr gut aufgepasst habt!“</p>
+        </div>
+        <p class="handover"><small>Ganz am Ende, nach dem Quiz</small>„Danke fürs Zuhören! Habt ihr noch Fragen?“</p>
+      </div>
+    </div>
+
+    <div class="quiz">
+      <h4>Im Quiz am Ende liest du Frage 5 und 6 vor</h4>
+      <p><b>5)</b> „Ein Stolperstein erinnert an einen einzelnen Menschen.“ Antwort: <span class="ans">richtig</span>, auf jedem Stein stehen Name und Schicksal eines Opfers.</p>
+      <p><b>6)</b> „Auch Linksextreme sind gegen die Demokratie.“ Antwort: <span class="ans">richtig</span>, ganz links und ganz rechts wollen beide, dass nicht mehr alle mitbestimmen.</p>
+      <p class="cue">So geht’s: Frage vorlesen, dann „Wer denkt richtig? Hand hoch!“, dann anklicken und die Erklärung vorlesen. Danach „Ergebnis“ klicken.</p>
+    </div>
+
+    <div class="merk"><h4>Das musst du auswendig wissen</h4>
+      <ul>
+        <li><b>1933</b> Hitler an der Macht · <b>6 Millionen</b> ermordete Juden = Holocaust</li>
+        <li><b>1949</b> Grundgesetz: Jeder Mensch ist gleich viel wert</li>
+        <li><b>2000–07</b> NSU, 10 Tote, erst 2011 entdeckt · <b>2020</b> Hanau, 9 Tote</li>
+        <li><b>88</b> = HH = Heil Hitler · <b>18</b> = AH = Adolf Hitler</li>
+        <li>Nummer gegen Kummer: <b>116 111</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= GEMEINSAM ======================= -->
+<section class="sheet" id="alle">
+  <div class="banner"><div><small>Für alle drei</small><h2>Gemeinsamer Zettel</h2></div><p class="you"><b>Ablauf und Fragen</b>ca. 15 Minuten</p></div>
+  <div class="inner">
+    <div class="table-wrap"><table>
+      <tr><th>Folie</th><th>Wer liest?</th><th>Thema</th><th>Übergabe an</th></tr>
+      <tr><td>1 Start</td><td style="--c:var(--L)"><span class="dot"></span><b>Leticia</b></td><td>Begrüßung, Frage an die Klasse, Pflaster</td><td>Alessandra</td></tr>
+      <tr><td>2 Was ist das?</td><td style="--c:var(--A)"><span class="dot"></span><b>Alessandra</b></td><td>4 Karten, links, Mitte, rechts</td><td>Enea</td></tr>
+      <tr><td>3 Geschichte</td><td style="--c:var(--E)"><span class="dot"></span><b>Enea</b></td><td>3 Fotos: NS-Zeit, NSU, Hanau</td><td>Leticia</td></tr>
+      <tr><td>4 Zahlen</td><td style="--c:var(--L)"><span class="dot"></span><b>Leticia</b></td><td>Diagramm, Antwort auf die Frage</td><td>Alessandra</td></tr>
+      <tr><td>5 Erinnern</td><td style="--c:var(--A)"><span class="dot"></span><b>Alessandra</b></td><td>Stolpersteine, Stein polieren</td><td>Enea</td></tr>
+      <tr><td>6 Handeln</td><td style="--c:var(--E)"><span class="dot"></span><b>Enea</b></td><td>3 Tipps, Zitat, Quiz starten</td><td>Quiz</td></tr>
+      <tr><td>Quiz</td><td>alle</td><td>Frage 1–2 Leticia · 3–4 Alessandra · 5–6 Enea</td><td>Ende</td></tr>
+      <tr><td>Ende</td><td>Enea</td><td>„Danke fürs Zuhören! Habt ihr noch Fragen?“</td><td></td></tr>
+    </table></div>
+    <p class="note">Wer liest, drückt auch die Tasten. Beim Wechsel macht die nächste Person einen Schritt nach vorne.</p>
+
+    <div class="merk"><h4>Vor dem Vortrag</h4>
+      <ul>
+        <li>☐ Laptop am Beamer, Seite geöffnet, Internet da</li>
+        <li>☐ Taste <b>F</b> für Vollbild · <b>→</b> weiter · <b>←</b> zurück · <b>S</b> Spickzettel · <b>Esc</b> Fenster zu</li>
+        <li>☐ Einmal zu dritt mit der Uhr geprobt (unten rechts)</li>
+        <li>☐ Jeder hat seinen Zettel ausgedruckt</li>
+      </ul>
+    </div>
+
+    <div class="merk"><h4>So tragt ihr gut vor</h4>
+      <ul>
+        <li>Langsam sprechen. Lieber eine Sache weniger als zu schnell.</li>
+        <li>In die Klasse schauen, nicht nur auf den Zettel.</li>
+        <li>Bei den Opfern (Holocaust, NSU, Hanau) ernst bleiben und nicht lachen.</li>
+        <li>Wenn ihr etwas vergesst: kurz auf den Zettel schauen und einfach weitermachen.</li>
+      </ul>
+    </div>
+
+    <div class="merk qa"><h4>Mögliche Fragen aus der Klasse</h4>
+      <div><b>Was ist der Unterschied zwischen rechts und rechtsextrem?</b><p>Rechts ist eine normale demokratische Meinung, zum Beispiel Traditionen bewahren oder weniger Zuwanderung. Rechtsextrem ist, wenn man Menschen weniger wert findet und die Demokratie abschaffen will.</p></div>
+      <div><b>Ist links besser als rechts?</b><p>Nein. Links und rechts sind beide normale Meinungen. In der Mitte findet man die meisten Kompromisse. Gefährlich sind nur die Extreme, links und rechts.</p></div>
+      <div><b>Warum gibt es heute mehr Rechtsextreme?</b><p>Ein Grund: Ab 2019 werden mehr Gruppen mitgezählt. Fachleute sagen außerdem, dass sich Hass im Internet und auf Social Media schneller verbreitet, auch unter Jugendlichen.</p></div>
+      <div><b>Ist die AfD rechtsextrem?</b><p>Der Verfassungsschutz hat die AfD im Mai 2025 als „gesichert rechtsextremistisch“ eingestuft. Die AfD wehrt sich vor Gericht dagegen. <i>Kurz vor dem Vortrag nachschauen, was der aktuelle Stand ist!</i></p></div>
+      <div><b>Ihr wisst eine Antwort nicht?</b><p>Ganz normal! Sagt: „Gute Frage, das wissen wir nicht genau. Wir schauen nach und sagen es euch.“</p></div>
+    </div>
+    <p class="note">Zahlen: Verfassungsschutzberichte 1999–2025. Fotos und Quellen stehen unten auf der Website.</p>
+  </div>
+</section>

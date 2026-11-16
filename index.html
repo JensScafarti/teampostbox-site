@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Nie wieder ist jetzt</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: 6 ruhige dunkle Folien. Eine Akzentfarbe (Gold, wie die Stolpersteine) markiert nur das Wichtigste.
+   Hierarchie pro Folie: kleine Foliennummer → große Überschrift → ein Satz „Kurz gesagt“ → ein Inhalt. Bewusst nur ein dunkles Thema. */
+:root {
+  color-scheme: dark;
+  --paper: #121419;
+  --card: #1B1F26;
+  --card-2: #232831;
+  --line: #2E343E;
+  --ink: #ECEDEF;
+  --ink-soft: #A9AFB9;
+  --bar: #4B525D;
+  --pen: #7FB2FF;
+  --red: #EE7468;
+  --good: #6FCF97;
+  --marker: #E3B341;
+  --on-accent: #15171B;
+  --night: #0E1014;
+  --head: 'Space Grotesk', 'Segoe UI', Arial, sans-serif;
+  --body: 'Inter', 'Segoe UI', Arial, sans-serif;
+  --hand: var(--body);
+  --wrap: 1140px;
+  --navh: 58px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); overflow-x: hidden; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 40; background: var(--paper); }
+a { color: var(--marker); }
+:focus-visible { outline: 2px solid var(--marker); outline-offset: 3px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+h1, h2, h3, h4 { margin: 0; font-weight: 700; text-wrap: balance; font-family: var(--head); }
+p { margin: 0; }
+.hand { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); line-height: 1.4; }
+.mark { color: var(--marker); }
+.sheet, .postit { background: var(--card); border: 1px solid var(--line); border-radius: 12px; position: relative; }
+.tape::before { display: none; }
+.btn { border: 0; background: var(--marker); color: var(--on-accent); font-weight: 600; padding: 12px 20px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: background .2s, transform .15s; }
+.btn:hover { background: #F0C65E; transform: translateY(-1px); }
+.btn.plain { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn.plain:hover { border-color: var(--marker); background: transparent; }
+
+/* Kopfleiste */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; height: var(--navh);
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding: 0 max(16px, env(safe-area-inset-left, 0px));
+  background: rgba(18,20,25,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.nav-in { max-width: var(--wrap); height: 100%; margin-inline: auto; display: flex; align-items: center; gap: 18px; }
+.brand { font-family: var(--head); font-weight: 700; font-size: 17px; letter-spacing: .02em; text-decoration: none; color: var(--ink); white-space: nowrap; }
+.brand span { color: var(--marker); }
+.links { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.links::-webkit-scrollbar { display: none; }
+.links a { color: var(--ink-soft); text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 6px; white-space: nowrap; display: flex; gap: 6px; align-items: center; }
+.links a b { color: var(--ink-soft); font-weight: 600; opacity: .6; }
+.links a:hover { color: var(--ink); }
+.links a.on { color: var(--ink); background: var(--card-2); }
+.links a.on b { color: var(--marker); opacity: 1; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; transform-origin: left; transform: scaleX(var(--p, 0)); background: var(--marker); }
+
+/* Folien */
+.slide { min-height: calc(100vh - var(--navh)); scroll-snap-align: start; scroll-margin-top: var(--navh); padding-block: 64px; display: flex; align-items: center; position: relative; border-bottom: 1px solid var(--line); }
+.slide-in { width: 100%; max-width: var(--wrap); margin-inline: auto; display: grid; gap: 36px; }
+.slide-head { display: grid; gap: 14px; max-width: 860px; }
+.slide-no { font-size: 13px; font-weight: 600; letter-spacing: .14em; color: var(--marker); }
+.slide-no::before { content: "Folie "; }
+.slide h2 { font-size: clamp(36px, 5vw, 60px); line-height: 1.05; letter-spacing: -.01em; }
+.kurz { font-size: 21px; line-height: 1.5; color: var(--ink-soft); max-width: 60ch; }
+.kurz b { color: var(--ink); font-weight: 600; margin-right: 4px; }
+.seen { animation: land .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--d, 0) * 90ms); }
+@keyframes land { from { opacity: 0; transform: translateY(18px); } }
+
+/* Folie 1 */
+.hero { margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); background: var(--night); overflow: hidden; padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+#pflaster { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(14,16,20,.95) 8%, rgba(14,16,20,.55) 45%, rgba(14,16,20,.15) 100%); }
+.torn { display: none; }
+.hero .slide-in { position: relative; z-index: 1; pointer-events: none; align-self: end; gap: 26px; }
+.hero .slide-in > * { pointer-events: auto; }
+.hero .from { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.hero h1 { font-size: clamp(52px, 9.5vw, 128px); line-height: .95; letter-spacing: -.02em; }
+.hero h1 .w { display: inline-block; animation: wordIn .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 120ms + 200ms); }
+.hero h1 .hl { color: var(--marker); }
+@keyframes wordIn { from { opacity: 0; transform: translateY(.35em); } }
+.hero .ask { font-size: clamp(19px, 2.2vw, 24px); color: var(--ink-soft); max-width: 40ch; }
+.hero .ask b { color: var(--ink); font-weight: 600; }
+.plan { display: flex; flex-wrap: wrap; gap: 8px; }
+.plan a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); background: rgba(27,31,38,.8); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; font-size: 15px; transition: border-color .2s; }
+.plan a:hover { border-color: var(--marker); }
+.plan a b { color: var(--marker); font-weight: 600; }
+.hero .note { font-size: 14px; color: var(--ink-soft); }
+
+/* Folie 2 */
+.flips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.flip { perspective: 1200px; border: 0; padding: 0; background: none; text-align: left; min-height: 200px; }
+.flip-in { position: relative; width: 100%; height: 100%; min-height: 200px; transition: transform .6s cubic-bezier(.3,.8,.2,1); transform-style: preserve-3d; }
+.flip[aria-pressed="true"] .flip-in { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; padding: 22px; display: flex; flex-direction: column; gap: 8px; border-radius: 12px; }
+.face.front { background: var(--card); border: 1px solid var(--line); transition: border-color .2s; }
+.flip:hover .face.front { border-color: var(--marker); }
+.face.back { transform: rotateY(180deg); background: var(--card-2); border: 1px solid var(--marker); }
+.face .num { font-size: 13px; font-weight: 600; color: var(--marker); }
+.face h3 { font-size: 22px; line-height: 1.2; margin-top: auto; }
+.face .tap { font-size: 13px; color: var(--ink-soft); }
+.face.back p { font-size: 17px; line-height: 1.5; }
+.spec { display: grid; gap: 14px; }
+.spec-bar { display: grid; grid-template-columns: 1fr 1.3fr 1.6fr 1.3fr 1fr; gap: 4px; }
+.spec-bar button { border: 1px solid var(--line); background: var(--card); padding: 12px 4px; border-radius: 8px; font-size: 15px; font-weight: 600; color: var(--ink-soft); transition: background .2s, color .2s, border-color .2s; }
+.spec-bar button:hover { border-color: var(--ink-soft); }
+.spec-bar .edge { color: var(--red); }
+.spec-bar .mid { color: var(--marker); }
+.spec-bar button[aria-pressed="true"] { background: var(--ink); color: var(--on-accent); border-color: var(--ink); }
+.spec-bar .edge[aria-pressed="true"] { background: var(--red); border-color: var(--red); }
+.spec-bar .mid[aria-pressed="true"] { background: var(--marker); border-color: var(--marker); }
+.spec-out { font-size: 18px; min-height: 2.9em; max-width: 70ch; color: var(--ink-soft); }
+.spec-out b { color: var(--ink); font-weight: 600; margin-right: 4px; }
+.spec-rule { font-size: 17px; color: var(--ink); background: rgba(227,179,65,.1); border: 1px solid rgba(227,179,65,.35); border-radius: 10px; padding: 12px 16px; max-width: 70ch; }
+.spec-rule b { color: var(--marker); margin-right: 4px; }
+
+/* Folie 3 */
+.events { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.ev { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; padding: 0; background: var(--card); text-align: left; display: grid; gap: 4px; transition: border-color .2s, transform .2s; }
+.ev:hover { border-color: var(--marker); transform: translateY(-3px); }
+.ev .pin { display: none; }
+.ev img { display: block; width: 100%; height: 230px; object-fit: cover; filter: grayscale(.5) brightness(.85); transition: filter .3s; background: var(--card-2); }
+.ev:hover img { filter: none; }
+.ev .row { display: flex; align-items: baseline; gap: 12px; padding: 14px 18px 0; }
+.ev .yr { font-family: var(--head); font-weight: 700; font-size: 20px; color: var(--marker); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ev h3 { font-size: 18px; line-height: 1.25; }
+.ev .more { font-size: 14px; color: var(--ink-soft); padding: 0 18px 16px; }
+
+/* Folie 4 */
+.chart-wrap { display: grid; grid-template-columns: 1fr 250px; gap: 20px; align-items: start; }
+.chart { padding: 24px 24px 18px; }
+.chart-title { font-family: var(--head); font-weight: 700; font-size: 20px; }
+.chart-sub { font-size: 14px; color: var(--ink-soft); }
+.chart-scroll { overflow-x: auto; }
+#zahlen { display: block; width: 100%; min-width: 620px; height: auto; margin-top: 12px; }
+#zahlen .gl { stroke: var(--line); stroke-width: 1; }
+#zahlen .ax { stroke: #5A616C; stroke-width: 1.5; }
+#zahlen .tk, #zahlen .yt { fill: var(--ink-soft); font-family: var(--body); font-size: 13px; }
+#zahlen .b { fill: var(--bar); transform-box: fill-box; transform-origin: 50% 100%; transition: opacity .2s; }
+#zahlen .b.min { fill: var(--pen); }
+#zahlen .b.max { fill: var(--red); }
+#zahlen.dim .b:not(.hov) { opacity: .4; }
+#zahlen.go .b { animation: barUp .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 30ms); }
+@keyframes barUp { from { transform: scaleY(0); } }
+#zahlen .ann { font-family: var(--body); font-weight: 600; font-size: 15px; }
+#zahlen .ann.min { fill: var(--pen); } #zahlen .ann.max { fill: var(--red); }
+#zahlen .cut { stroke: #5A616C; stroke-width: 1; stroke-dasharray: 4 4; }
+#zahlen .cutt { fill: var(--ink-soft); font-family: var(--body); font-size: 13px; }
+#zahlen .hit { fill: transparent; cursor: crosshair; }
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--on-accent); padding: 6px 10px; border-radius: 6px; font-size: 14px; line-height: 1.3; transform: translate(-50%, calc(-100% - 12px)); white-space: nowrap; }
+.tip b { font-weight: 700; margin-right: 6px; }
+.facts { display: grid; gap: 14px; }
+.fact { padding: 18px 20px; display: grid; gap: 2px; }
+.fact .hand { font-size: 12px; }
+.fact .big { font-family: var(--head); font-weight: 700; font-size: 44px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.fact.lo .big { color: var(--pen); }
+.fact.hi .big { color: var(--red); }
+.fact span:last-child { color: var(--ink-soft); font-size: 15px; }
+.fact small { font-size: 14px; color: var(--ink-soft); }
+.chart details { margin-top: 12px; font-size: 14px; color: var(--ink-soft); }
+.chart summary { cursor: pointer; color: var(--ink); }
+.chart table { border-collapse: collapse; margin-top: 8px; font-variant-numeric: tabular-nums; font-size: 14px; }
+.chart td, .chart th { padding: 2px 16px 2px 0; text-align: right; font-weight: 400; }
+.chart th { text-align: left; color: var(--ink); }
+.src { font-size: 12px; color: var(--ink-soft); margin-top: 6px; }
+
+/* Folie 5 */
+.mem { display: grid; grid-template-columns: 1.1fr 1fr; gap: 44px; align-items: center; }
+.real { margin: 0; padding: 0; overflow: hidden; display: grid; }
+.real img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; background: var(--card-2); }
+.real figcaption { font-size: 14px; color: var(--ink-soft); padding: 12px 16px; line-height: 1.4; }
+.real small { font-size: 12px; }
+.mem-facts { display: flex; gap: 32px; flex-wrap: wrap; margin-top: 22px; }
+.mem-facts div { display: grid; }
+.mem-facts b { font-family: var(--head); font-weight: 700; font-size: 30px; line-height: 1.1; color: var(--ink); }
+.mem-facts span { font-size: 14px; color: var(--ink-soft); }
+.stein-stage { display: grid; justify-items: center; gap: 14px; }
+.cobbles { padding: 20px; border-radius: 12px; background: #1A1D22; background-image: radial-gradient(circle at 30% 30%, #2C3038 0 40%, transparent 42%), radial-gradient(circle at 70% 75%, #262A31 0 38%, transparent 40%); background-size: 46px 46px, 52px 52px; }
+.stein { position: relative; width: min(260px, 62vw); aspect-ratio: 1; touch-action: none; cursor: grab; box-shadow: 0 10px 26px rgba(0,0,0,.6); }
+.plate { position: absolute; inset: 0; background: linear-gradient(135deg, #8E6E28 0%, #F0D58E 28%, #C89F45 48%, #FCE7A8 62%, #A9852F 100%); display: grid; place-content: center; gap: 3px; text-align: center; color: #3A2C0C; font-family: var(--head); font-weight: 700; font-size: clamp(14px, 2.2vw, 18px); letter-spacing: .08em; line-height: 1.3; }
+.plate .s { font-size: .76em; font-weight: 500; }
+#patina { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stein-out { font-size: 16px; color: var(--ink-soft); text-align: center; min-height: 2.6em; max-width: 30ch; }
+.stein-out.done { color: var(--marker); }
+.small-btn { border: 1px solid var(--line); background: transparent; padding: 8px 14px; border-radius: 8px; font-size: 14px; }
+.small-btn:hover { border-color: var(--marker); }
+
+/* Folie 6 */
+.acts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.act { padding: 24px; display: grid; gap: 10px; align-content: start; }
+.act .n { font-family: var(--head); font-weight: 700; font-size: 15px; color: var(--marker); }
+.act h3 { font-size: 24px; }
+.act p { font-size: 16px; color: var(--ink-soft); }
+.act .code { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+.end { display: flex; gap: 24px 40px; flex-wrap: wrap; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--line); }
+.end blockquote { margin: 0; font-family: var(--head); font-weight: 500; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; max-width: 32ch; padding-top: 16px; }
+.end blockquote span { color: var(--marker); }
+.end cite { display: block; font-style: normal; font-family: var(--body); font-size: 14px; color: var(--ink-soft); margin-top: 8px; }
+
+/* Steuerung */
+.dots { position: fixed; z-index: 28; right: max(16px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); display: grid; gap: 12px; }
+.dots a { width: 10px; height: 10px; border-radius: 50%; background: #3A404A; font-size: 0; color: transparent; transition: background .2s, transform .2s; }
+.dots a.on { background: var(--marker); transform: scale(1.4); }
+.dots a:hover { background: var(--ink-soft); }
+.pager { position: fixed; z-index: 28; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; }
+.pager button { border: 1px solid var(--line); background: var(--card); width: 42px; height: 42px; border-radius: 8px; font-size: 18px; }
+.pager button:hover { border-color: var(--marker); }
+.pager span { font-size: 14px; color: var(--ink-soft); padding: 0 8px; font-variant-numeric: tabular-nums; }
+.spick-btn { position: fixed; z-index: 35; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); border: 1px solid var(--line); background: var(--card); font-size: 14px; padding: 10px 14px; border-radius: 8px; display: flex; gap: 8px; align-items: center; color: var(--ink-soft); }
+.spick-btn:hover, .spick-btn[aria-expanded="true"] { border-color: var(--marker); color: var(--ink); }
+.spick-btn kbd { font-family: var(--body); font-size: 11px; border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+.spick { position: fixed; z-index: 35; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(70px + env(safe-area-inset-bottom, 0px)); width: min(340px, calc(100vw - 32px)); padding: 16px 18px; display: grid; gap: 8px; background: var(--card-2); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 20px 40px -14px rgba(0,0,0,.7); animation: land .3s ease-out both; }
+.spick .label { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--marker); }
+.spick h4 { font-size: 18px; }
+.spick ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 15px; color: var(--ink-soft); }
+
+/* Dialoge */
+dialog { border: 0; padding: 0; background: transparent; color: var(--ink); max-width: min(720px, calc(100vw - 32px)); width: 100%; max-height: calc(100vh - 48px); overflow: visible; margin: auto; }
+dialog::backdrop { background: rgba(5,6,8,.75); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+dialog[open] .paper { animation: open .35s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes open { from { opacity: 0; transform: translateY(20px) scale(.98); } }
+.dwrap { position: relative; }
+.paper { background: var(--card); border: 1px solid var(--line); border-radius: 14px; max-height: calc(100vh - 48px); overflow-y: auto; box-shadow: 0 30px 60px -20px rgba(0,0,0,.8); }
+.x-close { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; border: 1px solid var(--line); background: var(--card-2); color: var(--ink); font-size: 22px; line-height: 1; display: grid; place-items: center; border-radius: 50%; z-index: 3; transition: border-color .2s; }
+.x-close:hover { border-color: var(--marker); }
+.art-img { margin: 0; }
+.art-img img { display: block; width: 100%; height: clamp(180px, 32vh, 300px); object-fit: cover; border-radius: 14px 14px 0 0; }
+.art-img figcaption { font-size: 12px; color: var(--ink-soft); padding: 6px 28px 0; }
+.art-top { margin: 0 28px; padding: 18px 0 14px; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+.art-top .kick { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.art-top h3 { font-size: clamp(26px, 4vw, 36px); line-height: 1.1; }
+.art-top h3 span { color: var(--marker); margin-right: 10px; }
+.art-body { padding: 18px 28px 6px; font-size: 17px; }
+.art-body ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.merke { margin: 14px 28px 0; padding: 14px 16px; background: rgba(227,179,65,.1); border: 1px solid rgba(227,179,65,.35); border-radius: 10px; font-size: 16px; }
+.merke b { color: var(--marker); margin-right: 6px; }
+.art-nav { display: flex; justify-content: space-between; gap: 12px; padding: 20px 28px 24px; flex-wrap: wrap; }
+.art-nav button { border: 1px solid var(--line); background: transparent; padding: 8px 14px; border-radius: 8px; font-size: 14px; }
+.art-nav button:hover { border-color: var(--marker); }
+.quiz { padding: 32px 30px 28px; display: grid; gap: 22px; position: relative; overflow: hidden; }
+.quiz-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; padding-right: 44px; }
+.quiz-head b { font-family: var(--head); font-size: 22px; }
+.qdots { display: flex; gap: 6px; }
+.qdots i { width: 10px; height: 10px; border-radius: 50%; background: #3A404A; font-size: 0; }
+.qdots i.c { background: var(--marker); } .qdots i.r { background: var(--good); } .qdots i.f { background: var(--red); }
+#cdots i.r { background: var(--ink-soft); }
+.q { font-size: clamp(20px, 2.8vw, 26px); font-weight: 600; line-height: 1.35; min-height: 2.7em; }
+.q .qn { color: var(--marker); margin-right: 8px; }
+.answers { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.opt { border: 1px solid var(--line); background: var(--card-2); border-radius: 8px; padding: 10px 18px; font-size: 17px; display: inline-flex; gap: 10px; align-items: center; transition: border-color .2s; }
+.opt .box { display: none; }
+.opt:hover:not(:disabled) { border-color: var(--marker); }
+.opt:disabled { cursor: default; opacity: .5; }
+.opt.picked { opacity: 1; border-color: var(--ink-soft); }
+.opt.right { opacity: 1; border-color: var(--good); color: var(--good); }
+.feedback { font-size: 17px; color: var(--ink-soft); min-height: 3em; }
+.feedback b { display: block; font-size: 18px; margin-bottom: 2px; }
+.feedback .yes { color: var(--good); } .feedback .no { color: var(--red); }
+.score { font-family: var(--head); font-weight: 700; font-size: clamp(72px, 12vw, 120px); line-height: 1; color: var(--marker); }
+.c-ans { display: flex; gap: 12px; flex-wrap: wrap; }
+.c-ans button { min-width: 140px; border: 1px solid var(--line); background: var(--card-2); border-radius: 8px; padding: 14px 28px; font-size: 19px; font-weight: 600; transition: border-color .2s, background .2s; }
+.c-ans button:hover { border-color: var(--marker); background: #2A303A; }
+.c-scale { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-top: 30px; }
+.c-scale span { padding: 10px 2px; text-align: center; font-size: 14px; font-weight: 600; color: var(--ink-soft); background: var(--card-2); border-radius: 6px; }
+.c-scale span.on { background: var(--marker); color: var(--on-accent); }
+.c-pin { position: absolute; top: -26px; left: var(--x, 50%); transform: translateX(-50%); font-size: 14px; font-weight: 700; color: var(--marker); white-space: nowrap; transition: left 1s cubic-bezier(.3,.8,.2,1.1); }
+.c-res { font-size: 17px; display: grid; gap: 12px; }
+.c-res .big { font-family: var(--head); font-weight: 700; font-size: clamp(32px, 5vw, 46px); line-height: 1.05; }
+.c-note { padding: 14px 16px; font-size: 15px; color: var(--ink-soft); background: var(--card-2); border-radius: 10px; }
+.c-note b { font-family: var(--body) !important; font-size: 15px !important; color: var(--marker) !important; }
+.c-small { font-size: 13px; color: var(--ink-soft); }
+#confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.credits { max-width: var(--wrap); margin: 0 auto; padding-block: 28px 90px; font-size: 12px; color: var(--ink-soft); display: grid; gap: 6px; }
+.credits ul { margin: 0; padding-left: 18px; }
+.dl { display: flex; gap: 14px 22px; align-items: center; flex-wrap: wrap; padding-top: 26px; margin-top: 18px; border-top: 1px solid var(--line); }
+.dl p { font-size: 14px; color: var(--ink-soft); max-width: 52ch; }
+.credits a { color: var(--ink-soft); }
+.credits .made-by { margin-top: 14px; padding-top: 12px; border-top: 1px solid currentColor; border-top-color: rgba(127,127,127,.25); text-align: center; font-weight: 600; }
+#sparks { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 31; }
+
+@media (max-width: 1000px) {
+  .flips, .events { grid-template-columns: 1fr 1fr; }
+  .chart-wrap, .mem { grid-template-columns: 1fr; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .acts { grid-template-columns: 1fr; }
+  .dots { display: none; }
+}
+@media (max-width: 600px) {
+  body { font-size: 17px; }
+  .links { display: none; }
+  .flips, .events, .facts { grid-template-columns: 1fr; }
+  .spec-bar button { font-size: 11px; padding: 10px 1px; }
+  .spick-btn kbd { display: none; }
+  .quiz { padding-inline: 20px; }
+  .art-body, .art-nav { padding-inline: 20px; }
+  .art-top, .merke { margin-inline: 20px; }
+  .pager span { display: none; }
+}
+/* ---------- Karten mit Tiefe: heller umlaufender Rahmen + Seitenschatten ---------- */
+@property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.sheet, .postit, .face, .ev, .paper, .plan a, .spec-bar button {
+  border-color: rgba(255,255,255,.12);
+  background-image: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,0) 45%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 2px 4px rgba(0,0,0,.35), 0 18px 40px -14px rgba(0,0,0,.7), 0 44px 80px -36px rgba(0,0,0,.55);
+}
+.ev { position: relative; }
+.sheet::after, .postit::after, .face::after, .ev::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 2;
+  background: conic-gradient(from var(--ang), transparent 0 62%, rgba(255,255,255,.08) 70%, rgba(255,255,255,.7) 80%, rgba(227,179,65,.9) 84%, rgba(255,255,255,.08) 90%, transparent 96%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: .5; animation: edge 9s linear infinite; transition: opacity .3s;
+}
+.ev:nth-child(2n)::after, .act:nth-child(2)::after, .flip:nth-child(2n) .face::after { animation-delay: -3s; }
+.ev:nth-child(3n)::after, .act:nth-child(3)::after, .flip:nth-child(3) .face::after { animation-delay: -6s; }
+@keyframes edge { to { --ang: 360deg; } }
+.ev, .act, .fact, .real, .plan a, .flip { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .2s; }
+.ev:hover, .act:hover, .fact:hover, .real:hover, .plan a:hover {
+  transform: translateY(-6px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 4px 8px rgba(0,0,0,.35), 0 30px 60px -16px rgba(0,0,0,.8), 0 60px 110px -40px rgba(227,179,65,.18);
+}
+.ev:hover::after, .act:hover::after, .fact:hover::after, .real:hover::after, .flip:hover .face::after { opacity: 1; }
+.paper { border-color: rgba(227,179,65,.35); }
+.flip:hover { transform: translateY(-6px); }
+.chart:hover, .chart:hover::after { transform: none; }
+.chart::after { opacity: .35; }
+
+/* ---------- Feinschliff fürs Präsentieren ---------- */
+.slide::before { content: ""; position: absolute; inset: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))); z-index: -1; pointer-events: none;
+  background: radial-gradient(70% 55% at 88% 8%, rgba(227,179,65,.07), transparent 60%), radial-gradient(60% 50% at 0% 100%, rgba(127,178,255,.05), transparent 60%); }
+.slide:nth-of-type(odd)::before { background: radial-gradient(70% 55% at 10% 8%, rgba(227,179,65,.06), transparent 60%), radial-gradient(60% 50% at 100% 100%, rgba(238,116,104,.04), transparent 60%); }
+.hero::before { display: none; }
+.slide-meta { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.who { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--card-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px 4px 4px; }
+.who i { width: 24px; height: 24px; border-radius: 50%; background: var(--marker); color: var(--on-accent); display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 700; }
+.hero .who { background: rgba(27,31,38,.8); }
+.kurz { font-size: 23px; color: #C9CDD4; }
+.slide h2 { font-size: clamp(38px, 5.4vw, 66px); }
+.fs-btn { border: 1px solid var(--line); background: var(--card); color: var(--ink-soft); font-size: 13px; padding: 6px 12px; border-radius: 6px; white-space: nowrap; }
+.fs-btn:hover { color: var(--ink); border-color: var(--marker); }
+.timer { font-variant-numeric: tabular-nums; cursor: pointer; }
+.thanks { font-family: var(--head); font-weight: 700; font-size: clamp(26px, 3.2vw, 38px); text-align: center; padding-top: 6px; }
+.thanks span { color: var(--marker); }
+@media (max-width: 600px) { .fs-btn { display: none; } }
+
+/* ================= 4D-Look: Material wie im Dunkelmodus der BookNoFees-Startseite =================
+   Untergrund etwas heller, damit die schwarzen Kontaktschatten sichtbar werden.
+   Karten: heller Lichtrand + Lichtschein oben links + kurzer schwarzer Schatten unten.
+   Knöpfe: drei Schichten (Ring, gewölbte Fläche, eingedrückt beim Klick). Dazu kippen die Karten mit der Maus
+   und ein Lichtreflex folgt dem Zeiger. Rückgängig: index-vor-4d.html */
+:root { --paper: #23262D; --card: #2C3038; --card-2: #343943; --line: #3A404A;
+  --card-face: linear-gradient(145deg, #30353E, #262A31);
+  --card-depth: 0 0 0 1px rgba(225,234,248,.1785), -5px -5px 16px rgba(185,204,230,.12), 0 0 4px 4px #000, 0 0 10px 2px rgba(0,0,0,.96), 0 6px 10px -2px #000;
+  --card-depth-up: 0 0 0 1px rgba(225,234,248,.24), -8px -8px 22px rgba(185,204,230,.16), 0 0 6px 5px #000, 0 0 18px 4px rgba(0,0,0,.9), 0 22px 30px -8px #000;
+  --raise: 0 0 0 1px rgba(225,234,248,.1), 0 0 8px rgba(0,0,0,.5), 0 2px 3px rgba(0,0,0,.9), 0 7px 12px -3px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.15);
+  --raise-down: 0 0 0 1px rgba(225,234,248,.13), inset 0 3px 6px rgba(0,0,0,.7), inset 0 -1px 0 rgba(255,255,255,.1); }
+body { background: var(--paper); }
+.slide { border-bottom-color: rgba(0,0,0,.35); }
+.nav { background: rgba(35,38,45,.92); border-bottom-color: rgba(0,0,0,.5); box-shadow: 0 1px 0 rgba(225,234,248,.06); }
+
+/* Karten */
+.sheet, .postit, .face, .ev, .real, .paper {
+  border: 0 !important;
+  background: radial-gradient(420px circle at var(--mx, 30%) var(--my, 0%), rgba(255,255,255,var(--glare, .04)), transparent 60%), var(--card-face) !important;
+  box-shadow: var(--card-depth) !important;
+}
+.face.back { background: radial-gradient(420px circle at var(--mx, 30%) var(--my, 0%), rgba(255,236,180,.10), transparent 60%), linear-gradient(145deg, #3A3527, #2A271F) !important; }
+.ev img, .real img { border-radius: 12px 12px 0 0; }
+.chart.sheet { background: var(--card-face) !important; }
+
+/* 4D: Karten kippen mit der Maus, Licht wandert mit */
+.d4 { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px)) !important;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s !important; will-change: transform; transform-style: preserve-3d; }
+.d4.on { --lift: -8px; --glare: .14; transition: transform .12s ease-out, box-shadow .3s !important; box-shadow: var(--card-depth-up) !important; }
+.flip.d4.on { box-shadow: none !important; }
+.flip.d4.on .face { box-shadow: var(--card-depth-up) !important; }
+.d4 .yr, .d4 h3, .d4 .big { transform: translateZ(30px); }
+
+/* Knöpfe: Push (Gold) für die Hauptknöpfe */
+.btn { position: relative; isolation: isolate; background: transparent !important; color: #2A1E05; box-shadow: none; padding: 14px 24px; border-radius: 999px;
+  --push: 24px; --face: linear-gradient(135deg, #F6D27A, #C9952B); --face-hover: linear-gradient(135deg, #FADB8B, #D29E33); --face-down: linear-gradient(135deg, #E9C062, #BE8A22); --ring: #5A4110; --dk: 60,40,5; }
+.btn::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--face);
+  box-shadow: inset calc(var(--push) * -.05) calc(var(--push) * -.05) calc(var(--push) * .05) 0 rgba(var(--dk),.22), inset 0 0 calc(var(--push) * .05) calc(var(--push) * .2) rgba(255,255,255,.16), inset calc(var(--push) * .025) calc(var(--push) * .05) calc(var(--push) * .1) 0 rgba(255,255,255,.85), inset calc(var(--push) * .122) calc(var(--push) * .122) calc(var(--push) * .122) rgba(255,255,255,.16), inset calc(var(--push) * -.075) calc(var(--push) * -.25) calc(var(--push) * .25) calc(var(--push) * .1) rgba(var(--dk),.22);
+  transition: box-shadow .3s, background .25s, inset .2s; }
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -2; border-radius: inherit; background: var(--ring);
+  box-shadow: 0 calc(var(--push) * .05) calc(var(--push) * .05) calc(var(--push) * -.011) rgba(0,0,0,.8), 0 calc(var(--push) * .011) calc(var(--push) * .011) calc(var(--push) * -.011) rgba(0,0,0,.6), calc(var(--push) * .15) calc(var(--push) * .3) calc(var(--push) * .122) calc(var(--push) * -.011) rgba(0,0,0,.45), calc(var(--push) * -.15) calc(var(--push) * -.15) calc(var(--push) * .15) calc(var(--push) * -.075) rgba(185,204,230,.10);
+  transition: box-shadow .3s; }
+.btn:hover { transform: none; }
+.btn:hover::after { background: var(--face-hover); }
+.btn:active::before { box-shadow: none; }
+.btn:active::after { inset: calc(var(--push) * .083); background: var(--face-down);
+  box-shadow: inset calc(var(--push) * .1) calc(var(--push) * .15) calc(var(--push) * .05) 0 rgba(var(--dk),.55), inset calc(var(--push) * .25) calc(var(--push) * .25) calc(var(--push) * .2) 0 rgba(var(--dk),.35), inset calc(var(--push) * -.075) calc(var(--push) * -.122) calc(var(--push) * .2) calc(var(--push) * .1) rgba(var(--dk),.2); }
+.btn.plain { color: var(--ink); --face: linear-gradient(145deg, #3D434D, #2C3139); --face-hover: linear-gradient(145deg, #454C57, #323841); --face-down: linear-gradient(145deg, #2C3139, #353B44); --ring: #0C0D10; --dk: 0,0,0; border: 0 !important; }
+
+/* Knöpfe: „Raise“-Kacheln für alles andere */
+.spec-bar button, .c-ans button, .opt, .small-btn, .pager button, .fs-btn, .art-nav button, .spick-btn, .x-close, .plan a, .links a.on, .pager span {
+  border: 0 !important; background: linear-gradient(145deg, #3A4049, #2A2F36) !important; box-shadow: var(--raise) !important; transition: transform .12s ease, box-shadow .12s ease, color .2s !important; }
+.spec-bar { gap: 8px; }
+.spec-bar button:hover, .c-ans button:hover, .opt:hover:not(:disabled), .small-btn:hover, .pager button:hover, .fs-btn:hover, .art-nav button:hover, .spick-btn:hover, .x-close:hover, .plan a:hover {
+  background: linear-gradient(145deg, #434A54, #30363E) !important; }
+.spec-bar button:active, .c-ans button:active, .opt:active, .small-btn:active, .pager button:active, .fs-btn:active, .art-nav button:active, .x-close:active, .plan a:active {
+  transform: translateY(1px); box-shadow: var(--raise-down) !important; }
+/* gewählt = eingedrückt */
+.spec-bar button[aria-pressed="true"] { transform: translateY(1px); box-shadow: var(--raise-down) !important; color: var(--ink) !important; background: linear-gradient(145deg, #2A2F36, #343A43) !important; }
+.spec-bar .edge[aria-pressed="true"] { color: var(--red) !important; box-shadow: 0 0 0 1px rgba(238,116,104,.5), inset 0 3px 7px rgba(0,0,0,.65) !important; background: linear-gradient(145deg, #3C2626, #4A2C2C) !important; }
+.spec-bar .mid[aria-pressed="true"] { color: var(--marker) !important; box-shadow: 0 0 0 1px rgba(227,179,65,.5), 0 0 12px rgba(227,179,65,.15), inset 0 3px 7px rgba(0,0,0,.65) !important; background: linear-gradient(145deg, #3A3322, #4A4028) !important; }
+.opt.right { color: var(--good) !important; box-shadow: 0 0 0 1px rgba(111,207,151,.5), inset 0 3px 7px rgba(0,0,0,.6) !important; }
+.c-scale span { background: linear-gradient(145deg, #2A2F36, #343A43); box-shadow: var(--raise-down); }
+.c-scale span.on { background: linear-gradient(145deg, #F6D27A, #C9952B); color: #2A1E05; box-shadow: var(--raise); }
+.dots a { box-shadow: inset 0 1px 2px rgba(0,0,0,.8), 0 0 0 1px rgba(225,234,248,.08); }
+.dots a.on { box-shadow: 0 0 10px rgba(227,179,65,.6); }
+.who { border: 0; background: linear-gradient(145deg, #3A4049, #2A2F36); box-shadow: var(--raise); }
+.tip { box-shadow: var(--card-depth); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+
+<nav class="nav" aria-label="Folien">
+  <div class="nav-in">
+    <a class="brand" href="#f1">NIE WIEDER <span>IST JETZT</span></a>
+    <div class="links" id="links">
+      <a href="#f2"><b>2</b>Was ist das?</a>
+      <a href="#f3"><b>3</b>Geschichte</a>
+      <a href="#f4"><b>4</b>Zahlen</a>
+      <a href="#f5"><b>5</b>Erinnern</a>
+      <a href="#f6"><b>6</b>Handeln</a>
+    </div>
+    <button class="fs-btn" id="fsBtn" title="Vollbild (Taste F)">⛶ Vollbild</button>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>
+
+<!-- ============ Folie 1 ============ -->
+<section class="slide hero" id="f1">
+  <canvas id="pflaster" aria-hidden="true"></canvas>
+  <div class="slide-in">
+    <p class="from">Alessandras, Eneas und Leticias Geschichtsprojekt · Klasse 10</p>
+    <h1><span class="w" style="--i:0">Nie</span> <span class="w" style="--i:1">wieder</span><br><span class="w" style="--i:2">ist</span> <span class="w hl" style="--i:3">jetzt.</span></h1>
+    <p class="ask">Unsere Frage an euch: <b>Gibt es Rechtsextremismus heute noch?</b></p>
+    <nav class="plan" aria-label="Fahrplan">
+      <a href="#f2"><b>2</b>Was ist das?</a>
+      <a href="#f3"><b>3</b>Geschichte</a>
+      <a href="#f4"><b>4</b>Zahlen</a>
+      <a href="#f5"><b>5</b>Erinnern</a>
+      <a href="#f6"><b>6</b>Handeln</a>
+    </nav>
+    <p class="note">↖ Klickt ins Pflaster: Die goldenen Stolpersteine bleiben liegen.</p>
+  </div>
+  <div class="torn" aria-hidden="true"></div>
+</section>
+
+<!-- ============ Folie 2 ============ -->
+<section class="slide" id="f2">
+  <div class="slide-in">
+    <div class="slide-head reveal">
+      <span class="slide-no">2<small>/6</small></span>
+      <h2>Was ist <span class="mark">Rechts&shy;extremismus</span>?</h2>
+      <p class="kurz"><b>Kurz gesagt:</b>Rechtsextreme denken, dass manche Menschen weniger wert sind als andere. Und sie wollen, dass nicht mehr alle mitbestimmen dürfen.</p>
+    </div>
+    <div class="flips">
+      <button class="flip reveal" style="--d:0" aria-pressed="false"><div class="flip-in">
+        <div class="face front"><span class="num">1</span><h3>„Wir sind besser“</h3><span class="tap">umdrehen ↻</span></div>
+        <div class="face back"><p>Sie denken: Unser Volk ist mehr wert als alle anderen. Wer nicht dazugehört, ist der Feind.</p></div></div></button>
+      <button class="flip reveal" style="--d:1" aria-pressed="false"><div class="flip-in">
+        <div class="face front"><span class="num">2</span><h3>Hass auf andere</h3><span class="tap">umdrehen ↻</span></div>
+        <div class="face back"><p>Menschen werden fertiggemacht, weil sie anders aussehen, woanders herkommen oder einen anderen Glauben haben, zum Beispiel Juden.</p></div></div></button>
+      <button class="flip reveal" style="--d:2" aria-pressed="false"><div class="flip-in">
+        <div class="face front"><span class="num">3</span><h3>Einer soll bestimmen</h3><span class="tap">umdrehen ↻</span></div>
+        <div class="face back"><p>Keine freien Wahlen mehr. Ein „Führer“ bestimmt alles. Wer etwas anderes denkt, wird bestraft.</p></div></div></button>
+      <button class="flip reveal" style="--d:3" aria-pressed="false"><div class="flip-in">
+        <div class="face front"><span class="num">4</span><h3>Hitler gut finden</h3><span class="tap">umdrehen ↻</span></div>
+        <div class="face back"><p>Sie sagen, die Nazi-Zeit war gar nicht so schlimm, oder behaupten sogar, die Morde hätte es nie gegeben.</p></div></div></button>
+    </div>
+    <div class="spec reveal">
+      <div class="spec-bar" id="specBar">
+        <button class="edge" aria-pressed="false">Links&shy;extrem</button>
+        <button aria-pressed="false">Links</button>
+        <button class="mid" aria-pressed="true">Mitte</button>
+        <button aria-pressed="false">Rechts</button>
+        <button class="edge" aria-pressed="false">Rechts&shy;extrem</button>
+      </div>
+      <p class="spec-out" id="specOut" aria-live="polite"></p>
+      <p class="spec-rule"><b>Wichtig:</b> Links, Mitte und rechts gehören alle zur Demokratie. Gefährlich sind nur die Extreme ganz außen, auf beiden Seiten.</p>
+      <div><button class="btn" id="checkOpen">Erfahre, wo du liegst: Starte deinen Fragebogen →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Folie 3 ============ -->
+<section class="slide" id="f3">
+  <div class="slide-in">
+    <div class="slide-head reveal">
+      <span class="slide-no">3<small>/6</small></span>
+      <h2>Drei Ereignisse, <span class="mark">die man kennen muss</span></h2>
+      <p class="kurz"><b>Kurz gesagt:</b>Auch nach Hitler gab es immer wieder Gewalt von Rechtsextremen, bis heute. Klickt auf ein Foto!</p>
+    </div>
+    <div class="events" id="events"></div>
+  </div>
+</section>
+
+<!-- ============ Folie 4 ============ -->
+<section class="slide" id="f4">
+  <div class="slide-in">
+    <div class="slide-head reveal">
+      <span class="slide-no">4<small>/6</small></span>
+      <h2>Wann gab es die <span class="mark">meisten</span> Rechtsextremen?</h2>
+      <p class="kurz"><b>Kurz gesagt:</b>Bis 2014 wurden es immer weniger. Seitdem steigt die Zahl stark an. 2025 gab es so viele wie nie.</p>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart sheet reveal">
+        <p class="chart-title">Rechtsextreme in Deutschland, 1999 bis 2025</p>
+        <p class="chart-sub">Gezählt vom Verfassungsschutz, das ist ein Amt, das Feinde der Demokratie beobachtet. Fahrt mit der Maus über einen Balken.</p>
+        <div class="chart-scroll"><svg id="zahlen" viewBox="0 0 1000 400" role="img" aria-label="Säulendiagramm: Zahl der Rechtsextremen in Deutschland von 1999 bis 2025. Tiefpunkt 2014 mit 21.000, Höchststand 2025 mit 58.700."></svg></div>
+        <details><summary>Alle Zahlen als Tabelle</summary><table id="ztab"></table></details>
+        <p class="src">Quelle: Verfassungsschutzberichte des Bundesamts für Verfassungsschutz (Zahlen teils geschätzt und gerundet)</p>
+      </div>
+      <div class="facts">
+        <div class="fact postit lo reveal" style="--d:1"><span class="hand">Am wenigsten:</span><span class="big">2014</span><span>21.000 Rechtsextreme</span></div>
+        <div class="fact postit hi reveal" style="--d:2"><span class="hand">Am meisten:</span><span class="big">2025</span><span>58.700 Rechtsextreme</span></div>
+        <div class="fact sheet reveal" style="--d:3"><span class="hand" style="color:var(--ink)">Gut zu wissen:</span><small>Ab 2019 werden mehr Gruppen mitgezählt, zum Beispiel ein Teil der AfD. Darum springt die Zahl dort nach oben.</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Folie 5 ============ -->
+<section class="slide" id="f5">
+  <div class="slide-in">
+    <div class="slide-head reveal">
+      <span class="slide-no">5<small>/6</small></span>
+      <h2>Stolper&shy;steine: <span class="mark">Erinnern</span></h2>
+      <p class="kurz"><b>Kurz gesagt:</b>Kleine goldene Steine im Gehweg. Jeder erinnert an einen Menschen, den die Nazis verfolgt oder getötet haben. Der Stein liegt vor seinem alten Zuhause.</p>
+    </div>
+    <div class="mem">
+      <div class="reveal">
+        <figure class="real sheet tape"><img id="steinFoto" alt="Fünf echte Stolpersteine aus Messing zwischen Pflastersteinen in einem Berliner Gehweg"><figcaption>Echte Stolpersteine in Berlin<br><small>Foto: Leonhard Lenz, CC0</small></figcaption></figure>
+      </div>
+      <div class="stein-stage reveal" style="--d:2">
+        <p class="hand">Probiert’s aus: Poliert den Stein!</p>
+        <div class="cobbles"><div class="stein" id="stein" aria-label="Ein Stolperstein zum Polieren. Wischt darüber.">
+          <div class="plate"><span>HIER WOHNTE</span><span>EIN MENSCH</span><span class="s">MIT NAMEN, FAMILIE</span><span class="s">UND TRÄUMEN</span><span class="s">VERFOLGT · ENTRECHTET</span><span>NICHT VERGESSEN</span></div>
+          <canvas id="patina"></canvas>
+        </div></div>
+        <p class="stein-out" id="steinOut" aria-live="polite">Mit Maus oder Finger über den Stein wischen.</p>
+        <button class="small-btn" id="polishAuto">Automatisch polieren</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Folie 6 ============ -->
+<section class="slide" id="f6">
+  <div class="slide-in">
+    <div class="slide-head reveal">
+      <span class="slide-no">6<small>/6</small></span>
+      <h2>Was können <span class="mark">wir</span> tun?</h2>
+      <p class="kurz"><b>Kurz gesagt:</b>Erkennen, widersprechen, Hilfe holen. Das kann jeder von uns.</p>
+    </div>
+    <div class="acts">
+      <div class="act postit tape reveal" style="--d:0"><span class="n">1.</span><h3>Erkennen</h3><p>Rechtsextreme tarnen sich mit Zahlen-Codes und „lustigen“ Memes.</p><p class="code">88 = H H = „Heil Hitler“<br>18 = A H = „Adolf Hitler“</p></div>
+      <div class="act postit tape t3 reveal" style="--d:1"><span class="n">2.</span><h3>Widersprechen</h3><p>Bei rassistischen Sprüchen nicht schweigen, auch nicht im Gruppenchat. Und erst prüfen, dann teilen.</p></div>
+      <div class="act postit tape t2 reveal" style="--d:2"><span class="n">3.</span><h3>Hilfe holen</h3><p>Mit Lehrern oder Eltern reden. Wer aus der rechtsextremen Szene raus will: EXIT-Deutschland. Reden, ohne den Namen zu sagen: Nummer gegen Kummer, 116 111.</p></div>
+    </div>
+    <div class="end reveal">
+      <blockquote>„Es ist geschehen, und folglich kann es wieder <span>geschehen</span>.“<cite>Primo Levi, Überlebender von Auschwitz</cite></blockquote>
+      <button class="btn" id="quizOpen">Zum Schluss: Quiz starten ✎</button>
+    </div>
+    <p class="thanks reveal">Danke fürs Zuhören! <span>Habt ihr Fragen?</span></p>
+  </div>
+</section>
+
+<footer class="credits">
+  <p><b>Quellen:</b> Bundeszentrale für politische Bildung (<a href="https://www.bpb.de/themen/rechtsextremismus/dossier-rechtsextremismus/577715/was-ist-rechtsextremismus/" target="_blank" rel="noopener">Was ist Rechtsextremismus?</a>), Bundesamt für Verfassungsschutz (<a href="https://www.verfassungsschutz.de/DE/themen/rechtsextremismus/zahlen-und-fakten/zahlen-und-fakten_artikel.html" target="_blank" rel="noopener">Zahlen und Fakten</a>), Verfassungsschutzberichte 1999–2025, <a href="https://www.stolpersteine.eu/" target="_blank" rel="noopener">stolpersteine.eu</a></p>
+  <p><b>Fotos</b> (Wikimedia Commons):</p>
+  <ul id="credits"></ul>
+  <div class="dl">
+    <a class="btn" id="dlZettel" href="lernzettel-druck.html" target="_blank" rel="noopener">⬇ Lernzettel herunterladen</a>
+    <p>Für Leticia, Alessandra und Enea: wer was liest und was man zu jeder Folie sagt. Zum Ausdrucken im geöffneten Zettel Strg + P drücken.</p>
+  </div>
+  <p class="made-by">Programmiert von Leticia Scafarti · Schulprojekt · Klasse 10a · Realschule Sundern</p>
+</footer>
+
+<!-- Steuerung -->
+<nav class="dots" id="dots" aria-label="Folie wählen">
+  <a href="#f1" title="Start">1</a><a href="#f2" title="Was ist das?">2</a><a href="#f3" title="Geschichte">3</a><a href="#f4" title="Zahlen">4</a><a href="#f5" title="Erinnern">5</a><a href="#f6" title="Handeln">6</a>
+</nav>
+<div class="pager"><span class="timer" id="timer" title="Vortragszeit, Klick setzt zurück">⏱ 00:00</span><button id="prevS" aria-label="Vorherige Folie">←</button><span id="pageNo">1 / 6</span><button id="nextS" aria-label="Nächste Folie">→</button></div>
+<button class="spick-btn" id="spickBtn" aria-expanded="false" aria-controls="spick">Spickzettel <kbd>S</kbd></button>
+<div class="spick" id="spick" hidden><span class="label" id="spickNum"></span><h4 id="spickTitle"></h4><ul id="spickList"></ul></div>
+<div class="tip" id="tip" hidden></div>
+
+<dialog id="article" aria-labelledby="artTitle">
+  <div class="dwrap">
+    <button class="x-close" data-close aria-label="Schließen">×</button>
+    <div class="paper" id="artPaper">
+      <figure class="art-img" id="artFig"><img id="artImg" alt=""><figcaption id="artCap"></figcaption></figure>
+      <div class="art-top"><span class="kick" id="artKicker"></span><h3 id="artTitle"></h3></div>
+      <div class="art-body"><ul id="artList"></ul></div>
+      <p class="merke postit" id="artMerke"></p>
+      <div class="art-nav"><button id="artPrev">← Vorheriges</button><button id="artNext">Nächstes →</button></div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="quizDlg" aria-label="Quiz">
+  <div class="dwrap">
+    <button class="x-close" data-close aria-label="Schließen">×</button>
+    <div class="paper quiz" id="quizBox">
+      <canvas id="confetti" aria-hidden="true"></canvas>
+      <div class="quiz-head"><b>Test: Rechtsextremismus</b><div class="qdots" id="qdots"></div></div>
+      <div id="quizStage"></div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="checkDlg" aria-label="Wo stehst du?">
+  <div class="dwrap">
+    <button class="x-close" data-close aria-label="Schließen">×</button>
+    <div class="paper quiz">
+      <div class="quiz-head"><b>Wo stehst du?</b><div class="qdots" id="cdots"></div></div>
+      <div id="checkStage"></div>
+    </div>
+  </div>
+</dialog>
+
+<canvas id="sparks" aria-hidden="true"></canvas>
+<script src="bilder.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const IMG = window.IMG || {};
+
+  /* ================= Folie 3: sechs Ereignisse (kurz, in Stichpunkten) ================= */
+  const EVENTS = [
+    { id: 'ns', yr: '1933–45', title: 'Die NS-Zeit', kicker: 'Die Wurzeln',
+      pts: ['1933: Hitler kommt an die Macht. Ab jetzt bestimmt er allein, freie Wahlen gibt es nicht mehr.', 'Juden, Sinti und Roma und alle, die gegen Hitler sind, werden verfolgt.', 'Die Nazis ermorden etwa 6 Millionen Juden. Das nennt man Holocaust.', '8. Mai 1945: Der Krieg ist vorbei.', '1949 bekommt Deutschland das Grundgesetz. Der erste Satz heißt: „Die Würde des Menschen ist unantastbar.“ Das bedeutet: Jeder Mensch ist gleich viel wert.'],
+      merke: 'Rechtsextreme finden diese Zeit bis heute gut.',
+      cap: 'Tor des KZ Auschwitz. Foto: Dnalor 01, CC BY-SA 3.0 AT', alt: 'Eingangstor des Konzentrationslagers Auschwitz' },
+    { id: 'nsu', yr: '2000–07', title: 'Die NSU-Morde', kicker: 'Rechtsextremer Terror',
+      pts: ['Eine rechtsextreme Gruppe, der NSU, tötet zehn Menschen. Neun von ihnen haben Familien aus der Türkei oder Griechenland. Dazu eine Polizistin.', 'Die Polizei sucht jahrelang an der falschen Stelle und verdächtigt sogar die Familien der Opfer.', 'Erst 2011 wird die Gruppe entdeckt.'],
+      merke: 'Auch die Polizei kann Rassismus übersehen.',
+      cap: 'NSU-Mahnmal in Dortmund. Foto: Reclus, CC0', alt: 'Gedenkstein mit den Namen der zehn Opfer des NSU' },
+    { id: 'hanau', yr: '2020', title: 'Der Anschlag von Hanau', kicker: 'Sagt ihre Namen',
+      pts: ['Ein Rechtsextremist erschießt neun Menschen, deren Familien aus anderen Ländern kommen.', 'Vorher hatte er Hass-Videos ins Internet gestellt.', 'Die Familien sagen: #SayTheirNames, also „Sagt ihre Namen“.'],
+      merke: 'Erinnern heißt: über die Opfer sprechen, nicht über den Täter.',
+      cap: 'Gedenkplakat in Hanau, 2023. Foto: C.Suthorn, CC BY-SA 4.0', alt: 'Plakat mit Gesichtern und Namen der neun Opfer von Hanau' }
+  ];
+  const evBox = $('#events');
+  EVENTS.forEach((e, i) => {
+    const b = document.createElement('button');
+    b.className = 'ev reveal'; b.style.setProperty('--d', i % 3);
+    b.innerHTML = `<span class="pin"></span>${IMG[e.id] ? `<img src="${IMG[e.id]}" alt="">` : ''}<span class="row"><span class="yr">${e.yr}</span><h3>${e.title}</h3></span><span class="more">mehr lesen →</span>`;
+    b.addEventListener('click', () => openArticle(i));
+    evBox.appendChild(b);
+  });
+  const dlg = $('#article'); let cur = 0;
+  function fill(i) {
+    const e = EVENTS[i]; cur = i;
+    $('#artFig').hidden = !IMG[e.id];
+    if (IMG[e.id]) { $('#artImg').src = IMG[e.id]; $('#artImg').alt = e.alt; $('#artCap').textContent = e.cap; }
+    $('#artKicker').textContent = e.kicker;
+    $('#artTitle').innerHTML = `<span>${e.yr}</span>${e.title}`;
+    $('#artList').innerHTML = e.pts.map(p => `<li>${p}</li>`).join('');
+    $('#artMerke').innerHTML = `<b>Merke:</b>${e.merke}`;
+    $('#artPrev').hidden = i === 0; $('#artNext').hidden = i === EVENTS.length - 1;
+    const p = $('#artPaper'); p.scrollTop = 0; p.style.animation = 'none'; p.offsetWidth; p.style.animation = '';
+  }
+  function openArticle(i) { fill(i); dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', ''); }
+  $('#artPrev').onclick = () => fill(Math.max(0, cur - 1));
+  $('#artNext').onclick = () => fill(Math.min(EVENTS.length - 1, cur + 1));
+  $$('dialog').forEach(d => {
+    d.addEventListener('click', e => { if (e.target === d) d.close(); });
+    $$('[data-close]', d).forEach(b => b.onclick = () => d.close());
+  });
+  if (IMG.stein) $('#steinFoto').src = IMG.stein;
+  $('#credits').innerHTML = [...EVENTS.map(e => e.cap), 'Stolpersteine in Berlin-Friedenau. Foto: Leonhard Lenz, CC0'].map(c => `<li>${c}</li>`).join('');
+
+  /* ================= Folie 2: Karten + Spektrum ================= */
+  $$('.flip').forEach(f => f.addEventListener('click', () => f.setAttribute('aria-pressed', f.getAttribute('aria-pressed') === 'true' ? 'false' : 'true')));
+  const SPEC = [
+    ['Linksextrem:', 'Will auch, dass nicht mehr alle mitbestimmen. Manche benutzen Gewalt. Das ist genauso gefährlich.'],
+    ['Links:', 'Zum Beispiel: Reiche sollen mehr abgeben, damit es allen besser geht. Das ist eine ganz normale demokratische Meinung, genauso wie rechts. Links heißt nicht linksextrem!'],
+    ['Mitte:', 'Hier treffen sich die Meinungen von links und rechts, und man findet Kompromisse. Hier ist die Demokratie am stärksten.'],
+    ['Rechts:', 'Zum Beispiel: Traditionen bewahren, weniger Zuwanderung. Das ist eine ganz normale demokratische Meinung, genauso wie links. Rechts heißt nicht rechtsextrem!'],
+    ['Rechtsextrem:', 'Macht andere Menschen schlecht und will, dass nicht mehr alle mitbestimmen. Darum geht es heute.']
+  ];
+  const specBtns = $$('#specBar button');
+  function setSpec(v) { specBtns.forEach((b, i) => b.setAttribute('aria-pressed', String(i === v))); $('#specOut').innerHTML = `<b>${SPEC[v][0]}</b>${SPEC[v][1]}`; }
+  specBtns.forEach((b, i) => b.addEventListener('click', () => setSpec(i)));
+  setSpec(2);
+
+  /* ================= Folie 2: „Wo stehst du?“ (vereinfachter Check, nichts wird gespeichert) ================= */
+  // dir: -1 = eher links, +1 = eher rechts
+  const CHECK = [
+    { q: 'Sehr reiche Menschen sollen mehr Geld an den Staat abgeben, damit Ärmere mehr Hilfe bekommen.', dir: -1 },
+    { q: 'Deutschland soll weniger Menschen aufnehmen, die aus ihrem Land geflohen sind.', dir: 1 },
+    { q: 'Das Klima schützen ist wichtiger als billiges Benzin.', dir: -1 },
+    { q: 'Die Polizei soll mehr dürfen, um Verbrecher zu fangen.', dir: 1 },
+    { q: 'Wer arbeitet, soll mindestens deutlich mehr Geld pro Stunde bekommen als heute.', dir: -1 },
+    { q: 'Alte Traditionen und Bräuche sollen besser geschützt werden.', dir: 1 },
+    { q: 'Firmen sollen weniger Steuern zahlen und weniger Regeln haben.', dir: 1 },
+    { q: 'Jugendliche sollen überall schon ab 16 wählen dürfen.', dir: -1 },
+    { q: 'Atomkraftwerke sollen wieder Strom machen.', dir: 1 },
+    { q: 'Der Staat soll mehr billige Wohnungen bauen, und Mieten sollen nicht so stark steigen dürfen.', dir: -1 }
+  ];
+  const ZONES = ['Links', 'Mitte-links', 'Mitte', 'Mitte-rechts', 'Rechts'];
+  const cd = $('#checkDlg'), cs = $('#checkStage'), cdots = $('#cdots');
+  let ci = 0; const cans = [];
+  function cDots() { cdots.innerHTML = CHECK.map((_, i) => `<i class="${i < ci ? 'r' : i === ci ? 'c' : ''}">${i < ci ? '✓' : ''}</i>`).join(''); }
+  function cIntro() { ci = 0; cans.length = 0; cQ(); }
+  function cQ() {
+    cDots();
+    cs.innerHTML = `<div style="display:grid;gap:22px"><p class="c-small">Frage ${ci + 1} von ${CHECK.length} · Stimmst du zu? Nichts wird gespeichert.</p>
+      <p class="q"><span class="qn">${ci + 1})</span>${CHECK[ci].q}</p>
+      <div class="c-ans"><button data-v="1" class="yes">Ja</button><button data-v="-1" class="no">Nein</button></div></div>`;
+    $$('.c-ans button', cs).forEach(b => b.onclick = () => { cans[ci] = +b.dataset.v; ci++; ci < CHECK.length ? cQ() : cResult(); });
+    $('.c-ans button', cs).focus();
+  }
+  function cResult() {
+    ci = CHECK.length; cDots();
+    let sum = 0, n = 0;
+    CHECK.forEach((c, i) => { if (cans[i] !== null && cans[i] !== undefined) { sum += cans[i] * c.dir; n++; } });
+    const s = n ? sum / n : 0;               // -1 … +1
+    const z = Math.max(0, Math.min(4, Math.round((s + 1) * 2)));
+    cs.innerHTML = `<div class="c-res"><p class="hand">Dein Ergebnis:</p><p class="big">Eher ${ZONES[z]}</p>
+      <div class="c-scale">${ZONES.map((t, i) => `<span class="${i === z ? 'on' : ''}">${t}</span>`).join('')}<b class="c-pin" id="cPin" style="--x:50%">du ↓</b></div>
+      <p class="c-note postit"><b style="font-family:var(--hand);font-size:24px;color:var(--red)">Wichtig:</b> Alle diese Positionen sind demokratisch! In einer Demokratie darf und soll man über solche Fragen streiten. Extrem wird es erst, wenn jemand Menschen abwertet oder die Demokratie abschaffen will.</p>
+      <p class="c-small">Vor echten Wahlen gibt es den richtigen Wahl-O-Mat der Bundeszentrale für politische Bildung: wahl-o-mat.de</p>
+      <div><button class="btn plain" id="cAgain">Nochmal</button></div></div>`;
+    requestAnimationFrame(() => requestAnimationFrame(() => { const p = $('#cPin'); if (p) p.style.setProperty('--x', (10 + (s + 1) / 2 * 80) + '%'); }));
+    $('#cAgain').onclick = cIntro;
+  }
+  const openCheck = () => { cIntro(); cd.showModal ? cd.showModal() : cd.setAttribute('open', ''); };
+  $('#checkOpen').onclick = openCheck;
+
+  /* ================= Folie 4: Zahlenstrahl ================= */
+  const DATA = [[1999,51400],[2000,50900],[2001,49700],[2002,45000],[2003,41500],[2004,40700],[2005,39000],[2006,38600],[2007,31000],[2008,30000],[2009,26600],[2010,25000],[2011,22400],[2012,22150],[2013,21700],[2014,21000],[2015,22600],[2016,23100],[2017,24000],[2018,24100],[2019,32080],[2020,33300],[2021,33900],[2022,38800],[2023,40600],[2024,50250],[2025,58700]];
+  const fmt = n => Math.round(n).toLocaleString('de-DE');
+  (function chart() {
+    const svg = $('#zahlen'), NS = 'http://www.w3.org/2000/svg';
+    const L = 64, R = 16, Tp = 46, B = 40, W = 1000, H = 400, MAX = 60000;
+    const pw = W - L - R, ph = H - Tp - B, bw = pw / DATA.length;
+    const y = v => Tp + ph - v / MAX * ph;
+    const el = (n, a, txt) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; };
+    [0, 20000, 40000, 60000].forEach(v => { el('line', { class: 'gl', x1: L, x2: W - R, y1: y(v), y2: y(v) }); el('text', { class: 'yt', x: L - 8, y: y(v) + 4, 'text-anchor': 'end' }, fmt(v)); });
+    let minI = 0, maxI = 0; DATA.forEach((d, i) => { if (d[1] < DATA[minI][1]) minI = i; if (d[1] > DATA[maxI][1]) maxI = i; });
+    const i19 = DATA.findIndex(d => d[0] === 2019), xc = L + i19 * bw + 1;
+    el('line', { class: 'cut', x1: xc, x2: xc, y1: Tp - 6, y2: Tp + ph });
+    el('text', { class: 'cutt', x: xc + 6, y: Tp + 8 }, 'ab 2019 wird mehr mitgezählt');
+    const bars = [];
+    DATA.forEach((d, i) => {
+      const x = L + i * bw + 2, w = bw - 4, yy = y(d[1]), h = Tp + ph - yy;
+      const cls = 'b' + (i === minI ? ' min' : i === maxI ? ' max' : '');
+      const r = Math.min(4, w / 2);
+      const path = `M${x},${Tp + ph} V${yy + r} Q${x},${yy} ${x + r},${yy} H${x + w - r} Q${x + w},${yy} ${x + w},${yy + r} V${Tp + ph} Z`;
+      const b = el('path', { class: cls, d: path, style: `--i:${i}` }); bars.push(b);
+      if (d[0] % 5 === 0 || i === 0) el('text', { class: 'tk', x: x + w / 2, y: H - B + 22, 'text-anchor': 'middle' }, d[0]);
+      const hit = el('rect', { class: 'hit', x: L + i * bw, y: Tp, width: bw, height: ph + 26 });
+      hit.addEventListener('pointerenter', () => { svg.classList.add('dim'); b.classList.add('hov'); showTip(d); });
+      hit.addEventListener('pointermove', ev => moveTip(ev));
+      hit.addEventListener('pointerleave', () => { svg.classList.remove('dim'); b.classList.remove('hov'); $('#tip').hidden = true; });
+      hit.addEventListener('pointerdown', ev => { showTip(d); moveTip(ev); });
+    });
+    el('line', { class: 'ax', x1: L, x2: W - R, y1: Tp + ph, y2: Tp + ph });
+    const mx = L + minI * bw + bw / 2, my = y(DATA[minI][1]);
+    el('text', { class: 'ann min', x: mx, y: my - 14, 'text-anchor': 'middle' }, 'Tiefpunkt ↓');
+    const Mx = L + maxI * bw + bw / 2, My = y(DATA[maxI][1]);
+    el('text', { class: 'ann max', x: Mx - 8, y: My - 12, 'text-anchor': 'end' }, 'Höchststand →');
+    $('#ztab').innerHTML = '<tr><th>Jahr</th><th>Rechtsextreme</th></tr>' + DATA.map(d => `<tr><th>${d[0]}</th><td>${fmt(d[1])}</td></tr>`).join('');
+    function showTip(d) { const t = $('#tip'); t.innerHTML = `<b>${d[0]}</b>${fmt(d[1])} Rechtsextreme`; t.hidden = false; }
+    function moveTip(ev) { const t = $('#tip'); t.style.left = ev.clientX + 'px'; t.style.top = ev.clientY + 'px'; }
+    if (!reduce && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { svg.classList.add('go'); io.disconnect(); } }, { threshold: .3 });
+      io.observe(svg);
+    }
+  })();
+
+  /* ================= Folie 6: Quiz im Dialog ================= */
+  const QUIZ = [
+    { q: 'Zahlencodes wie „88“ sind harmlose Glückszahlen.', a: false, why: '88 steht für „Heil Hitler“.' },
+    { q: 'Im Grundgesetz steht: Jeder Mensch ist gleich viel wert.', a: true, why: 'Das ist der allererste Satz: „Die Würde des Menschen ist unantastbar.“' },
+    { q: 'Nach 1945 gab es keinen Rechtsextremismus mehr.', a: false, why: 'Die NSU-Morde und der Anschlag in Hanau 2020 zeigen: Rechtsextreme Gewalt gibt es bis heute.' },
+    { q: 'Im Jahr 2014 gab es die wenigsten Rechtsextremen.', a: true, why: 'Damals waren es etwa 21.000. Heute sind es fast dreimal so viele.' },
+    { q: 'Ein Stolperstein erinnert an einen einzelnen Menschen.', a: true, why: 'Auf jedem Stein stehen Name und Schicksal eines Opfers.' },
+    { q: 'Auch Linksextreme sind gegen die Demokratie.', a: true, why: 'Ganz links und ganz rechts wollen beide, dass nicht mehr alle mitbestimmen.' }
+  ];
+  const qd = $('#quizDlg'), stage = $('#quizStage'), qdots = $('#qdots');
+  let qi = 0, score = 0; const res = [];
+  function drawDots() { qdots.innerHTML = QUIZ.map((_, i) => res[i] === true ? '<i class="r">✓</i>' : res[i] === false ? '<i class="f">✗</i>' : `<i class="${i === qi ? 'c' : ''}"></i>`).join(''); }
+  function showQ() {
+    drawDots(); const it = QUIZ[qi];
+    stage.innerHTML = `<div style="display:grid;gap:22px"><p class="q"><span class="qn">${qi + 1})</span>${it.q}</p>
+      <div class="answers"><button class="opt" data-v="1"><span class="box"></span>richtig</button><button class="opt" data-v="0"><span class="box"></span>falsch</button></div>
+      <p class="feedback" aria-live="polite"></p></div>`;
+    $$('.opt', stage).forEach(b => b.onclick = () => answer(b));
+  }
+  function answer(b) {
+    const it = QUIZ[qi], ok = (b.dataset.v === '1') === it.a;
+    res[qi] = ok; if (ok) score++;
+    b.classList.add('picked');
+    $$('.opt', stage).forEach(x => { x.disabled = true; if ((x.dataset.v === '1') === it.a) x.classList.add('right'); });
+    $('.feedback', stage).innerHTML = `<b class="${ok ? 'yes' : 'no'}">${ok ? 'Richtig! ✓' : 'Leider falsch ✗'}</b>${it.why}`;
+    drawDots();
+    const n = document.createElement('button'); n.className = 'btn plain';
+    n.textContent = qi < QUIZ.length - 1 ? 'Nächste Frage →' : 'Ergebnis →';
+    n.onclick = () => { qi++; qi < QUIZ.length ? showQ() : result(); };
+    $('.answers', stage).appendChild(n); n.focus();
+  }
+  function result() {
+    qi = QUIZ.length; drawDots();
+    stage.innerHTML = `<div style="display:grid;gap:14px"><p class="score">${score}/${QUIZ.length}</p><p class="q" style="min-height:0">${score === QUIZ.length ? 'Alles richtig. Stark!' : score >= 4 ? 'Sehr gut gemacht!' : 'Schaut euch die Folien nochmal an.'}</p><div><button class="btn plain" id="again">Nochmal</button></div></div>`;
+    $('#again').onclick = () => { qi = 0; score = 0; res.length = 0; showQ(); };
+    if (score >= 4) confetti();
+  }
+  $('#quizOpen').onclick = () => { qi = 0; score = 0; res.length = 0; showQ(); qd.showModal ? qd.showModal() : qd.setAttribute('open', ''); };
+  function confetti() {
+    if (reduce) return;
+    const c = $('#confetti'), box = $('#quizBox'), x = c.getContext('2d');
+    const w = c.width = box.clientWidth * devicePixelRatio, h = c.height = box.clientHeight * devicePixelRatio;
+    const cols = ['#FFE14D', '#BFE3F5', '#FFC9D6', '#C42E25', '#2343A6'];
+    const ps = Array.from({ length: 110 }, () => ({ x: w / 2, y: h * .4, vx: (Math.random() - .5) * 22 * devicePixelRatio, vy: (-Math.random() * 18 - 6) * devicePixelRatio, s: (10 + Math.random() * 12) * devicePixelRatio, r: Math.random() * 6, vr: (Math.random() - .5) * .3, c: cols[Math.random() * cols.length | 0] }));
+    const t0 = performance.now();
+    (function f(t) { x.clearRect(0, 0, w, h); ps.forEach(p => { p.vy += .5 * devicePixelRatio; p.x += p.vx; p.y += p.vy; p.vx *= .98; p.r += p.vr; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * .66); x.restore(); }); if (t - t0 < 3200) requestAnimationFrame(f); else x.clearRect(0, 0, w, h); })(t0);
+  }
+
+  // Lokal (localhost oder Datei) direkt als Datei speichern; online öffnet sich der Zettel in einem neuen Tab.
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:') $('#dlZettel').setAttribute('download', 'Lernzettel-Rechtsextremismus.html');
+
+  /* ================= 4D: Karten kippen mit der Maus, Lichtreflex folgt ================= */
+  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    $$('.ev, .act, .fact, .flip, .real, .plan a').forEach(el => {
+      el.classList.add('d4');
+      const glareEl = el.matches('.flip') ? null : el;
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        el.classList.add('on');
+        el.style.setProperty('--ry', ((x - .5) * 14).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', ((.5 - y) * 12).toFixed(2) + 'deg');
+        const t = glareEl || $('.face', el);
+        if (t) { t.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); t.style.setProperty('--my', (y * 100).toFixed(1) + '%'); }
+        if (el.matches('.flip')) $$('.face', el).forEach(f => { f.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); f.style.setProperty('--my', (y * 100).toFixed(1) + '%'); f.style.setProperty('--glare', '.14'); });
+      });
+      el.addEventListener('pointerleave', () => {
+        el.classList.remove('on'); el.style.setProperty('--ry', '0deg'); el.style.setProperty('--rx', '0deg');
+        if (el.matches('.flip')) $$('.face', el).forEach(f => f.style.removeProperty('--glare'));
+      });
+    });
+  }
+
+  /* ================= Folien-Steuerung ================= */
+  const slides = $$('.slide');
+  const SPICK = [
+    ['Start', ['Begrüßen, Thema nennen', 'Ins Pflaster klicken!', 'Frage stellen: Gibt es Rechtsextremismus heute noch?']],
+    ['Was ist das?', ['Kern: Menschen sind nicht gleich viel wert', 'Die 4 Karten umdrehen', 'Spektrum: Mitte = Demokratie, beide Ränder = extrem']],
+    ['Geschichte', ['Foto 1: NS-Zeit öffnen, Holocaust und Grundgesetz', 'Foto 2: NSU, 10 Tote, erst 2011 entdeckt', 'Foto 3: Hanau 2020, 9 Tote, „Sagt ihre Namen“']],
+    ['Zahlen', ['Tiefpunkt 2014: 21.000', 'Höchststand 2025: 58.700', 'Fast dreimal so viele wie 2014']],
+    ['Erinnern', ['Ein Stein = ein Mensch', 'Liegen vor der letzten Wohnung', 'Stein live polieren']],
+    ['Handeln', ['Codes 88 und 18 erklären', 'Widersprechen, Hilfe holen', 'Zitat vorlesen, dann Quiz starten']]
+  ];
+  // Wer spricht auf welcher Folie? (hier einfach Namen tauschen)
+  const SPEAK = ['Leticia', 'Alessandra', 'Enea', 'Leticia', 'Alessandra', 'Enea'];
+  slides.forEach((s, i) => {
+    const chip = `<span class="who"><i>${SPEAK[i][0]}</i>spricht: ${SPEAK[i]}</span>`;
+    const no = $('.slide-no', s);
+    if (no) { const m = document.createElement('div'); m.className = 'slide-meta'; no.replaceWith(m); m.append(no); m.insertAdjacentHTML('beforeend', chip); }
+    else { const f = $('.from', s); if (f) f.insertAdjacentHTML('afterend', `<div>${chip}</div>`); }
+  });
+  // Vollbild für den Beamer
+  const fs = () => { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {}); };
+  $('#fsBtn').onclick = fs;
+  // Vortragszeit
+  let tStart = Date.now();
+  const timer = $('#timer');
+  setInterval(() => { const s = Math.floor((Date.now() - tStart) / 1000); timer.textContent = `⏱ ${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; }, 1000);
+  timer.onclick = () => { tStart = Date.now(); timer.textContent = '⏱ 00:00'; };
+  const curSlide = () => { let k = 0; slides.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .45) k = i; }); return k; };
+  const go = k => { k = Math.max(0, Math.min(slides.length - 1, k)); slides[k].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); };
+  $('#prevS').onclick = () => go(curSlide() - 1);
+  $('#nextS').onclick = () => go(curSlide() + 1);
+  const spick = $('#spick'), spickBtn = $('#spickBtn');
+  function renderSpick() { const k = curSlide(); $('#spickNum').textContent = `Folie ${k + 1} von 6`; $('#spickTitle').textContent = `${SPICK[k][0]} · ${SPEAK[k]} spricht`; $('#spickList').innerHTML = SPICK[k][1].map(p => `<li>${p}</li>`).join(''); }
+  function toggleSpick() { spick.hidden = !spick.hidden; spickBtn.setAttribute('aria-expanded', String(!spick.hidden)); renderSpick(); }
+  spickBtn.onclick = toggleSpick;
+  addEventListener('keydown', e => {
+    const a = document.activeElement;
+    if ($$('dialog').some(d => d.open) || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(curSlide() + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); go(curSlide() - 1); }
+    else if (e.key === 's' || e.key === 'S') toggleSpick();
+    else if (e.key === 'f' || e.key === 'F') fs();
+  });
+  const dots = $$('#dots a'), links = $$('#links a');
+  let last = -1;
+  function onScroll() {
+    const h = document.documentElement;
+    $('#progress').style.setProperty('--p', Math.min(1, h.scrollTop / (h.scrollHeight - h.clientHeight || 1)));
+    const k = curSlide(); if (k === last) return; last = k;
+    dots.forEach((d, i) => d.classList.toggle('on', i === k));
+    links.forEach((l, i) => l.classList.toggle('on', i + 1 === k));
+    $('#pageNo').textContent = `${k + 1} / 6`;
+    if (!spick.hidden) renderSpick();
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* ================= Zettel fallen hin ================= */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); io.unobserve(e.target); } }), { threshold: .12 });
+    $$('.reveal').forEach(el => { if (el.getBoundingClientRect().top > innerHeight) io.observe(el); });
+  }
+  document.addEventListener('animationend', e => { if (e.animationName === 'land' && e.target.classList.contains('seen')) e.target.classList.remove('seen'); });
+
+  /* ================= Folie 5: Stein polieren ================= */
+  const stein = $('#stein'), pc = $('#patina'), px = pc.getContext('2d', { willReadFrequently: true }), sOut = $('#steinOut');
+  let doneS = false, moves = 0, down = false;
+  function paintPatina() {
+    const r = stein.getBoundingClientRect(), d = devicePixelRatio || 1;
+    pc.width = Math.max(1, Math.round(r.width * d)); pc.height = Math.max(1, Math.round(r.height * d));
+    px.globalCompositeOperation = 'source-over';
+    const g = px.createLinearGradient(0, 0, pc.width, pc.height); g.addColorStop(0, '#3B3A2C'); g.addColorStop(.5, '#4A4632'); g.addColorStop(1, '#2E2D24');
+    px.fillStyle = g; px.fillRect(0, 0, pc.width, pc.height);
+    for (let i = 0; i < 800; i++) { px.fillStyle = `rgba(${20 + Math.random() * 60},${30 + Math.random() * 50},${20 + Math.random() * 30},${Math.random() * .5})`; px.beginPath(); px.arc(Math.random() * pc.width, Math.random() * pc.height, Math.random() * 14 * d, 0, 7); px.fill(); }
+    px.globalCompositeOperation = 'destination-out'; doneS = false; sOut.classList.remove('done');
+  }
+  function rub(cx, cy) { const d = devicePixelRatio || 1, g = px.createRadialGradient(cx, cy, 0, cx, cy, 32 * d); g.addColorStop(0, 'rgba(0,0,0,.9)'); g.addColorStop(1, 'rgba(0,0,0,0)'); px.fillStyle = g; px.beginPath(); px.arc(cx, cy, 32 * d, 0, 7); px.fill(); }
+  function check() {
+    if (doneS) return;
+    const data = px.getImageData(0, 0, pc.width, pc.height).data; let c = 0, n = 0;
+    for (let i = 3; i < data.length; i += 64) { n++; if (data[i] < 60) c++; }
+    const p = c / n;
+    if (p > .55) { doneS = true; sOut.classList.add('done'); sOut.textContent = 'Glänzt wieder! Viele putzen Stolpersteine am 9. November.'; let a = 0; (function f() { px.fillStyle = 'rgba(0,0,0,.12)'; px.fillRect(0, 0, pc.width, pc.height); if (++a < 25) requestAnimationFrame(f); })(); }
+    else if (p > .15) sOut.textContent = `Weiter so … ${Math.round(p / .55 * 100)} %`;
+  }
+  const pos = e => { const r = pc.getBoundingClientRect(), d = pc.width / r.width; return [(e.clientX - r.left) * d, (e.clientY - r.top) * d]; };
+  stein.addEventListener('pointerdown', e => { down = true; stein.setPointerCapture(e.pointerId); rub(...pos(e)); });
+  stein.addEventListener('pointerup', () => { down = false; check(); });
+  stein.addEventListener('pointermove', e => { if (!down && e.pointerType !== 'mouse') return; rub(...pos(e)); if (++moves % 12 === 0) check(); });
+  $('#polishAuto').onclick = () => { if (doneS) { paintPatina(); sOut.textContent = 'Mit Maus oder Finger über den Stein wischen.'; return; } const W = pc.width, H = pc.height; let t = 0; (function s() { for (let k = 0; k < 6; k++) { t++; const yy = (t * 7) % H, xx = W / 2 + Math.sin(t * .18) * W * .48; rub(xx, yy); rub(W - xx, (yy + H / 2) % H); } if (t % 30 === 0) check(); if (t < 360) requestAnimationFrame(s); else check(); })(); };
+  paintPatina();
+  let rsz; new ResizeObserver(() => { clearTimeout(rsz); rsz = setTimeout(() => { if (Math.abs(pc.width - stein.clientWidth * devicePixelRatio) > 4) paintPatina(); }, 150); }).observe(stein);
+
+  /* ================= Folie 1: Funken + 3D-Pflaster ================= */
+  const hero = $('#f1');
+  if (!reduce) {
+    const sc = $('#sparks'), sx = sc.getContext('2d'); let sp = [], running = false;
+    const size = () => { sc.width = innerWidth * devicePixelRatio; sc.height = innerHeight * devicePixelRatio; sx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); };
+    size(); addEventListener('resize', size);
+    const spawn = (x, y, n, f) => { for (let i = 0; i < n; i++) sp.push({ x, y, vx: (Math.random() - .5) * f, vy: (Math.random() - .5) * f - .6, life: 1, s: 1 + Math.random() * 2.6 }); if (!running) { running = true; requestAnimationFrame(tick); } };
+    function tick() { sx.clearRect(0, 0, innerWidth, innerHeight); sx.globalCompositeOperation = 'lighter'; sp = sp.filter(p => (p.life -= .022) > 0);
+      for (const p of sp) { p.x += p.vx; p.y += p.vy; p.vy += .05; const a = p.life; sx.fillStyle = `rgba(240,213,142,${a})`; sx.beginPath(); sx.arc(p.x, p.y, p.s * a + .4, 0, 7); sx.fill(); sx.fillStyle = `rgba(255,240,200,${a * .25})`; sx.beginPath(); sx.arc(p.x, p.y, p.s * 3 * a, 0, 7); sx.fill(); }
+      if (sp.length) requestAnimationFrame(tick); else { running = false; sx.clearRect(0, 0, innerWidth, innerHeight); } }
+    let lt = 0;
+    hero.addEventListener('pointermove', e => { const now = performance.now(); if (now - lt > 16) { lt = now; spawn(e.clientX, e.clientY, 2, 2.4); } }, { passive: true });
+    hero.addEventListener('pointerdown', e => spawn(e.clientX, e.clientY, 26, 9), { passive: true });
+  }
+  let cv = $('#pflaster');
+  function hero3D() {
+    if (!window.THREE) return false;
+    const T = window.THREE; let renderer;
+    try { renderer = new T.WebGLRenderer({ canvas: cv, antialias: true }); } catch (e) { return false; }
+    if (!renderer.getContext()) return false;
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); renderer.setClearColor(0x0E1014, 1);
+    const scene = new T.Scene(); scene.fog = new T.Fog(0x0E1014, 13, 34);
+    const cam = new T.PerspectiveCamera(40, 1, .1, 120);
+    const COLS = 42, ROWS = 32, SX = 1.08, SZ = .86;
+    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const cells = [];
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+      const hx = (c - COLS / 2 + (r % 2) * .5) * SX + (rnd() - .5) * .06, hz = (r - ROWS * .72) * SZ + (rnd() - .5) * .06;
+      const brass = rnd() < .035 && hz > -12 && hz < 5, d = Math.hypot(hx, hz);
+      cells.push({ hx, hz, brass, sx: .86 + rnd() * .14, sz: .8 + rnd() * .12, sy: .35 + rnd() * .2, ry0: (rnd() - .5) * .08,
+        o: reduce ? new T.Vector3() : new T.Vector3((rnd() - .5) * 34, 16 + rnd() * 30, (rnd() - .5) * 24), v: new T.Vector3(),
+        r: reduce ? new T.Vector3() : new T.Vector3(rnd() * 9, rnd() * 9, rnd() * 9), w: new T.Vector3(), delay: .15 + d * .045 + rnd() * .35, free: 0, d });
+    }
+    const stoneCells = cells.filter(c => !c.brass), brassCells = cells.filter(c => c.brass);
+    const stoneMesh = new T.InstancedMesh(new T.BoxGeometry(1, 1, 1), new T.MeshStandardMaterial({ color: 0xffffff, roughness: .88, metalness: .05 }), stoneCells.length);
+    const brassMat = new T.MeshStandardMaterial({ color: 0xD6B35E, roughness: .25, metalness: 1, emissive: 0x5a420f, emissiveIntensity: .7 });
+    const brassMesh = new T.InstancedMesh(new T.BoxGeometry(.78, .5, .78), brassMat, brassCells.length);
+    const col = new T.Color(); stoneCells.forEach((c, i) => { col.setHSL(.58 + rnd() * .04, .1, .13 + rnd() * .1); stoneMesh.setColorAt(i, col); });
+    stoneMesh.instanceMatrix.setUsage(T.DynamicDrawUsage); brassMesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
+    scene.add(stoneMesh, brassMesh);
+    scene.add(new T.AmbientLight(0x6a7890, .35));
+    const dl = new T.DirectionalLight(0xaabbdd, .6); dl.position.set(-6, 12, 8); scene.add(dl);
+    const pl = new T.PointLight(0xffd690, 3.2, 10, 2); pl.position.set(0, 2.2, 0); scene.add(pl);
+    const pl2 = new T.PointLight(0xf0c070, 0, 16, 2); pl2.position.set(0, 3, 0); scene.add(pl2);
+    const NP = 520, pp = new Float32Array(NP * 3), pv = new Float32Array(NP);
+    for (let i = 0; i < NP; i++) { pp[i * 3] = (rnd() - .5) * 40; pp[i * 3 + 1] = rnd() * 9; pp[i * 3 + 2] = -22 + rnd() * 28; pv[i] = .15 + rnd() * .5; }
+    const pg = new T.BufferGeometry(); pg.setAttribute('position', new T.BufferAttribute(pp, 3));
+    scene.add(new T.Points(pg, new T.PointsMaterial({ color: 0xF0D58E, size: .07, transparent: true, opacity: .8, blending: T.AdditiveBlending, depthWrite: false })));
+    const NB = 260, bp = new Float32Array(NB * 3), bv = new Float32Array(NB * 3); for (let i = 0; i < NB; i++) bp[i * 3 + 1] = -99;
+    const bg = new T.BufferGeometry(); bg.setAttribute('position', new T.BufferAttribute(bp, 3));
+    const bmat = new T.PointsMaterial({ color: 0xFFE7A8, size: .13, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false });
+    scene.add(new T.Points(bg, bmat));
+    const dummy = new T.Object3D(), ray = new T.Raycaster(), ndc = new T.Vector2(), ground = new T.Plane(new T.Vector3(0, 1, 0), 0), hit = new T.Vector3();
+    const m = { x: 0, z: 0, has: false, nx: .5, ny: .5 }; let glow = 0;
+    function size() { const W = hero.clientWidth, H = hero.clientHeight; renderer.setSize(W, H, false); cam.aspect = W / H; cam.fov = W < 700 ? 55 : 40; cam.updateProjectionMatrix(); }
+    size(); addEventListener('resize', size);
+    function toGround(e) { const r = hero.getBoundingClientRect(); m.nx = (e.clientX - r.left) / r.width; m.ny = (e.clientY - r.top) / r.height; ndc.set(m.nx * 2 - 1, -(m.ny * 2 - 1)); ray.setFromCamera(ndc, cam); return ray.ray.intersectPlane(ground, hit); }
+    hero.addEventListener('pointermove', e => { if (toGround(e)) { m.x = hit.x; m.z = hit.z; m.has = true; } });
+    hero.addEventListener('pointerleave', () => { m.has = false; });
+    hero.addEventListener('pointerdown', e => {
+      if (e.target.closest('a, button') || reduce || !toGround(e)) return;
+      for (const c of stoneCells) { const dx = c.hx - hit.x, dz = c.hz - hit.z, d = Math.hypot(dx, dz); if (d > 5.5) continue; const k = 1 - d / 5.5, n = d || 1;
+        c.v.x += dx / n * k * 13; c.v.z += dz / n * k * 13; c.v.y += 7 + k * 15; c.w.set((Math.random() - .5) * 26 * k, (Math.random() - .5) * 26 * k, (Math.random() - .5) * 26 * k); c.free = .9 + k * .7; }
+      for (let i = 0; i < NB; i++) { bp[i * 3] = hit.x; bp[i * 3 + 1] = .3; bp[i * 3 + 2] = hit.z; const a = Math.random() * 6.283, s = 2 + Math.random() * 7; bv[i * 3] = Math.cos(a) * s; bv[i * 3 + 1] = 4 + Math.random() * 10; bv[i * 3 + 2] = Math.sin(a) * s; }
+      bmat.opacity = 1; glow = 1; pl2.position.set(hit.x, 2.5, hit.z);
+    });
+    let visible = true, running = false;
+    const kick = () => { if (!running && !reduce) { running = true; requestAnimationFrame(loop); } };
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) kick(); }).observe(hero);
+    const t0 = performance.now(); let prev = t0; const ease = p => 1 - Math.pow(1 - p, 3), look = new T.Vector3();
+    function step(now) {
+      const dt = Math.min(.033, Math.max(0, (now - prev) / 1000)); prev = now; const t = (now - t0) / 1000;
+      const p = reduce ? 1 : ease(Math.min(1, t / 3.6)), sp = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight || 1)));
+      const swayX = Math.sin(t * .23) * .7 + (m.nx - .5) * 1.4, swayY = (m.ny - .5) * -.6;
+      cam.position.set(swayX * p + (1 - p) * -8, 26 + (6.4 - 26) * p + swayY * p + sp * 6, 24 + (10.5 - 24) * p - sp * 4);
+      look.set(0, 0, -6 + 3.4 * p - sp * 3); cam.lookAt(look); cam.rotation.z += (1 - p) * .35;
+      if (!m.has) { m.x = Math.sin(t * .4) * 7; m.z = -2 + Math.sin(t * .27) * 4; }
+      pl.position.x += (m.x - pl.position.x) * .1; pl.position.z += (m.z - pl.position.z) * .1;
+      glow = Math.max(0, glow - dt * .9); pl2.intensity = glow * 6; brassMat.emissiveIntensity = .55 + .35 * Math.sin(t * 1.6) + glow * 2.5;
+      const k = 46, damp = 9.5;
+      const upd = (list, mesh, isBrass) => {
+        for (let i = 0; i < list.length; i++) { const c = list[i];
+          if (t > c.delay) {
+            if (c.free > 0) { c.free -= dt; c.v.y -= 32 * dt; c.o.addScaledVector(c.v, dt); c.r.addScaledVector(c.w, dt); if (c.o.y < 0 && c.v.y < 0) { c.o.y = 0; c.v.y *= -.35; c.v.x *= .7; c.v.z *= .7; c.w.multiplyScalar(.6); } }
+            else { const dm = Math.hypot(c.hx - pl.position.x, c.hz - pl.position.z), lift = Math.max(0, 1 - dm / 3.2), ty = lift * lift * (isBrass ? .25 : .55) + .05 * Math.sin(t * 1.4 - c.d * .45);
+              c.v.x += (-k * c.o.x - damp * c.v.x) * dt; c.v.y += (-k * (c.o.y - ty) - damp * c.v.y) * dt; c.v.z += (-k * c.o.z - damp * c.v.z) * dt; c.o.addScaledVector(c.v, dt);
+              c.w.x += (-k * c.r.x - damp * c.w.x) * dt; c.w.y += (-k * c.r.y - damp * c.w.y) * dt; c.w.z += (-k * c.r.z - damp * c.w.z) * dt; c.r.addScaledVector(c.w, dt); }
+          }
+          dummy.position.set(c.hx + c.o.x, (isBrass ? .25 : c.sy / 2 - .05) + c.o.y, c.hz + c.o.z); dummy.rotation.set(c.r.x, c.ry0 + c.r.y, c.r.z);
+          if (isBrass) dummy.scale.set(1, 1, 1); else dummy.scale.set(c.sx, c.sy, c.sz); dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix); }
+        mesh.instanceMatrix.needsUpdate = true;
+      };
+      upd(stoneCells, stoneMesh, false); upd(brassCells, brassMesh, true);
+      for (let i = 0; i < NP; i++) { pp[i * 3 + 1] += pv[i] * dt; pp[i * 3] += Math.sin(t + i) * .004; if (pp[i * 3 + 1] > 9) pp[i * 3 + 1] = 0; }
+      pg.attributes.position.needsUpdate = true;
+      if (bmat.opacity > 0) { for (let i = 0; i < NB; i++) { bv[i * 3 + 1] -= 14 * dt; bp[i * 3] += bv[i * 3] * dt; bp[i * 3 + 1] += bv[i * 3 + 1] * dt; bp[i * 3 + 2] += bv[i * 3 + 2] * dt; } bg.attributes.position.needsUpdate = true; bmat.opacity = Math.max(0, bmat.opacity - dt * .55); }
+      renderer.render(scene, cam);
+    }
+    function loop(now) { if (!visible) { running = false; return; } step(now); requestAnimationFrame(loop); }
+    if (reduce) { step(performance.now() + 9999); addEventListener('resize', () => step(performance.now() + 9999)); } else kick();
+    return true;
+  }
+  function hero2D() {
+    const cx = cv.getContext('2d'); if (!cx) return;
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    function draw() {
+      const D = Math.min(devicePixelRatio || 1, 2), W = hero.clientWidth, H = hero.clientHeight;
+      cv.width = W * D; cv.height = H * D; cx.setTransform(D, 0, 0, D, 0, 0); cx.fillStyle = '#0B0D10'; cx.fillRect(0, 0, W, H); seed = 7;
+      for (let y = 0, row = 0; y < H; y += 54, row++) for (let x = -31 * (row % 2); x < W; x += 68) {
+        const b = rnd() < .03; cx.fillStyle = b ? '#C89F45' : `hsl(212 12% ${13 + rnd() * 9}%)`; cx.fillRect(x + 3, y + 3, b ? 44 : 60, 46);
+      }
+    }
+    draw(); addEventListener('resize', draw);
+  }
+  let ok3d = false; try { ok3d = hero3D(); } catch (e) { ok3d = false; }
+  if (!ok3d) { const f = cv.cloneNode(false); cv.replaceWith(f); cv = f; hero2D(); }
+})();
+</script>
